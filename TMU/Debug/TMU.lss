@@ -933,9 +933,8 @@ int main(void)
  3c0:	ce 01       	movw	r24, r28
  3c2:	01 96       	adiw	r24, 0x01	; 1
  3c4:	0e 94 0e 02 	call	0x41c	; 0x41c <TMU_Init>
-	//SREG= SREG |0x80 ;// enable global interrupt
 	
-	TMU_Start_Timer(T_LED,1000 , PERIODIC, 20);
+	TMU_Start_Timer(T_LED,1000 , PERIODIC, 20); //task 1
  3c8:	04 e1       	ldi	r16, 0x14	; 20
  3ca:	21 e0       	ldi	r18, 0x01	; 1
  3cc:	48 ee       	ldi	r20, 0xE8	; 232
@@ -945,7 +944,7 @@ int main(void)
  3d4:	8a ec       	ldi	r24, 0xCA	; 202
  3d6:	91 e0       	ldi	r25, 0x01	; 1
  3d8:	0e 94 63 02 	call	0x4c6	; 0x4c6 <TMU_Start_Timer>
-	TMU_Start_Timer(T_LED_2,500 , PERIODIC, 30);
+	TMU_Start_Timer(T_LED_2,500 , PERIODIC, 30); // task 2
  3dc:	0e e1       	ldi	r16, 0x1E	; 30
  3de:	21 e0       	ldi	r18, 0x01	; 1
  3e0:	44 ef       	ldi	r20, 0xF4	; 244
@@ -958,7 +957,6 @@ int main(void)
 	
     while(1)
     {
-        //TODO:: Please write your application code 
 		TMU_Dispatch();
  3f0:	0e 94 1e 03 	call	0x63c	; 0x63c <TMU_Dispatch>
 		if (test>10)
@@ -1064,7 +1062,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
  47a:	ce 01       	movw	r24, r28
  47c:	01 96       	adiw	r24, 0x01	; 1
  47e:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
-					gu8_TMU_Timer_Ch = TIMER_0 ;
+					gu8_TMU_Timer_Ch = TIMER_0 ; //save the timer channel to start its timer later in statr_timer function
  482:	10 92 60 00 	sts	0x0060, r1
 					Error_Num = E_OK;
  486:	80 e0       	ldi	r24, 0x00	; 0
@@ -1078,7 +1076,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
  48a:	ce 01       	movw	r24, r28
  48c:	07 96       	adiw	r24, 0x07	; 7
  48e:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
-					gu8_TMU_Timer_Ch = TIMER_1 ; 
+					gu8_TMU_Timer_Ch = TIMER_1 ; //save the timer channel to start its timer later in statr_timer function
  492:	81 e0       	ldi	r24, 0x01	; 1
  494:	80 93 60 00 	sts	0x0060, r24
 					Error_Num = E_OK;
@@ -1093,7 +1091,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
  49c:	ce 01       	movw	r24, r28
  49e:	0d 96       	adiw	r24, 0x0d	; 13
  4a0:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
-				   gu8_TMU_Timer_Ch = TIMER_2 ;
+				   gu8_TMU_Timer_Ch = TIMER_2 ;//save the timer channel to start its timer later in statr_timer function
  4a4:	82 e0       	ldi	r24, 0x02	; 2
  4a6:	80 93 60 00 	sts	0x0060, r24
 				   Error_Num = E_OK;
@@ -1219,7 +1217,7 @@ if (Error_Num == NOT_INIT)
  514:	09 f0       	breq	.+2      	; 0x518 <TMU_Start_Timer+0x52>
  516:	58 c0       	rjmp	.+176    	; 0x5c8 <TMU_Start_Timer+0x102>
 {
-		if(gu8_Timer_start_flag == 0)
+		if(gu8_Timer_start_flag == 0) // if it is the first task added in the schedule 
  518:	80 91 90 05 	lds	r24, 0x0590
  51c:	81 11       	cpse	r24, r1
  51e:	1c c0       	rjmp	.+56     	; 0x558 <TMU_Start_Timer+0x92>
@@ -1270,12 +1268,12 @@ EnmTMUError_t Start_Timer(void)
  550:	70 e0       	ldi	r23, 0x00	; 0
  552:	82 e0       	ldi	r24, 0x02	; 2
  554:	0e 94 77 01 	call	0x2ee	; 0x2ee <Timer_Start>
-		     Start_Timer();
+		     Start_Timer(); 
 		}
 
 		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
 		{
-			if (gapstr_Tasks_Buffer[u8_index].ID == 0)
+			if (gapstr_Tasks_Buffer[u8_index].ID == 0) // add the task in the first free array slot 
  558:	80 91 87 00 	lds	r24, 0x0087
  55c:	90 91 88 00 	lds	r25, 0x0088
  560:	89 2b       	or	r24, r25
@@ -1295,13 +1293,13 @@ EnmTMUError_t Start_Timer(void)
  57c:	50 e0       	ldi	r21, 0x00	; 0
 		{
 			gu8_Timer_start_flag = 1;
-		     Start_Timer();
+		     Start_Timer(); 
 		}
 
 		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
  57e:	60 e0       	ldi	r22, 0x00	; 0
 		{
-			if (gapstr_Tasks_Buffer[u8_index].ID == 0)
+			if (gapstr_Tasks_Buffer[u8_index].ID == 0) // add the task in the first free array slot 
 			{
 				gapstr_Tasks_Buffer[u8_index].pfun_TMU = funcPtr ;
  580:	8d e0       	ldi	r24, 0x0D	; 13
@@ -1344,7 +1342,7 @@ EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t perio
  5b2:	3d 96       	adiw	r30, 0x0d	; 13
 		{
 			gu8_Timer_start_flag = 1;
-		     Start_Timer();
+		     Start_Timer(); 
 		}
 
 		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
@@ -1400,7 +1398,7 @@ EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
    	uint8_t u8_index = 0;
 	EnmTMUError_t Error_Num = STOP_NO_START;
 	
-if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH) // if TMU not initialized  
  5de:	90 91 60 00 	lds	r25, 0x0060
  5e2:	93 30       	cpi	r25, 0x03	; 3
  5e4:	49 f1       	breq	.+82     	; 0x638 <TMU_Stop_Timer+0x5a>
@@ -1430,7 +1428,7 @@ else
  60c:	60 e0       	ldi	r22, 0x00	; 0
  60e:	70 e0       	ldi	r23, 0x00	; 0
 			{
-				gapstr_Tasks_Buffer[u8_index].ID = 0;
+				gapstr_Tasks_Buffer[u8_index].ID = 0; // delete the task from the schedule 
  610:	8d e0       	ldi	r24, 0x0D	; 13
  612:	86 9f       	mul	r24, r22
  614:	f0 01       	movw	r30, r0
@@ -1466,7 +1464,7 @@ EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
  634:	84 e0       	ldi	r24, 0x04	; 4
  636:	08 95       	ret
 	
-if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH) // if TMU not initialized  
 {
 	Error_Num = NOT_INIT;
  638:	82 e0       	ldi	r24, 0x02	; 2
@@ -1541,7 +1539,7 @@ EnmTMUError_t TMU_Dispatch(void)
 		
 			for (index=0; index < MAX_NUM_OF_TASKS; index++)
 			{
-				if (gapstr_Tasks_Buffer[index].ID > 0)
+				if (gapstr_Tasks_Buffer[index].ID > 0) // if the task is active NOTE: if task ID = 0 it means it is inactive
  67c:	8b 85       	ldd	r24, Y+11	; 0x0b
  67e:	9c 85       	ldd	r25, Y+12	; 0x0c
  680:	89 2b       	or	r24, r25
@@ -1561,7 +1559,7 @@ EnmTMUError_t TMU_Dispatch(void)
  698:	69 87       	std	Y+9, r22	; 0x09
  69a:	7a 87       	std	Y+10, r23	; 0x0a
 					
-					if (gapstr_Tasks_Buffer[index].Counts <= 0 )
+					if (gapstr_Tasks_Buffer[index].Counts <= 0 ) // delay ran out and time to execute 
  69c:	45 2b       	or	r20, r21
  69e:	46 2b       	or	r20, r22
  6a0:	47 2b       	or	r20, r23
@@ -1578,7 +1576,7 @@ EnmTMUError_t TMU_Dispatch(void)
 							   {
 								   case PERIODIC:
 								    {
-		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ;
+		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ; // reload to make another delay period 
  6b0:	8a 81       	ldd	r24, Y+2	; 0x02
  6b2:	9b 81       	ldd	r25, Y+3	; 0x03
  6b4:	ac 81       	ldd	r26, Y+4	; 0x04
@@ -1597,7 +1595,7 @@ EnmTMUError_t TMU_Dispatch(void)
  6c6:	07 c0       	rjmp	.+14     	; 0x6d6 <TMU_Dispatch+0x9a>
 								   case ONE_SHOT:
 								    {
-									    gapstr_Tasks_Buffer[index].ID = 0 ;
+									    gapstr_Tasks_Buffer[index].ID = 0 ; // delete the task from the schedule 
  6c8:	1c 86       	std	Y+12, r1	; 0x0c
  6ca:	1b 86       	std	Y+11, r1	; 0x0b
 									    gapstr_Tasks_Buffer[index].pfun_TMU();

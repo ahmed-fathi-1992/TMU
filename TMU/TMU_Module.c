@@ -76,7 +76,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 			case TIMER_0:
 			    {
 					Timer_Init(&Timer0_cfg);
-					gu8_TMU_Timer_Ch = TIMER_0 ;
+					gu8_TMU_Timer_Ch = TIMER_0 ; //save the timer channel to start its timer later in statr_timer function
 					Error_Num = E_OK;
 				}
 			break;
@@ -84,7 +84,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 			case TIMER_1:
 			    {
 					Timer_Init(&Timer1_cfg);
-					gu8_TMU_Timer_Ch = TIMER_1 ; 
+					gu8_TMU_Timer_Ch = TIMER_1 ; //save the timer channel to start its timer later in statr_timer function
 					Error_Num = E_OK;
 				}
 			break;
@@ -92,7 +92,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 			case TIMER_2:
 			    {
 				   Timer_Init(&Timer2_cfg);
-				   gu8_TMU_Timer_Ch = TIMER_2 ;
+				   gu8_TMU_Timer_Ch = TIMER_2 ;//save the timer channel to start its timer later in statr_timer function
 				   Error_Num = E_OK;
 			    }
 			break;
@@ -155,15 +155,15 @@ if ( funcPtr == NULL )
 
 if (Error_Num == NOT_INIT)
 {
-		if(gu8_Timer_start_flag == 0)
+		if(gu8_Timer_start_flag == 0) // if it is the first task added in the schedule 
 		{
 			gu8_Timer_start_flag = 1;
-		     Start_Timer();
+		     Start_Timer(); 
 		}
 
 		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
 		{
-			if (gapstr_Tasks_Buffer[u8_index].ID == 0)
+			if (gapstr_Tasks_Buffer[u8_index].ID == 0) // add the task in the first free array slot 
 			{
 				gapstr_Tasks_Buffer[u8_index].pfun_TMU = funcPtr ;
 				gapstr_Tasks_Buffer[u8_index].Time_delay = delay ;
@@ -203,7 +203,7 @@ EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
    	uint8_t u8_index = 0;
 	EnmTMUError_t Error_Num = STOP_NO_START;
 	
-if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH) // if TMU not initialized  
 {
 	Error_Num = NOT_INIT;
 } 
@@ -213,7 +213,7 @@ else
 		{
 			if (gapstr_Tasks_Buffer[u8_index].ID == ID)
 			{
-				gapstr_Tasks_Buffer[u8_index].ID = 0;
+				gapstr_Tasks_Buffer[u8_index].ID = 0; // delete the task from the schedule 
 				Error_Num = E_OK;
 				break;
 			}
@@ -244,25 +244,25 @@ EnmTMUError_t TMU_Dispatch(void)
 		
 			for (index=0; index < MAX_NUM_OF_TASKS; index++)
 			{
-				if (gapstr_Tasks_Buffer[index].ID > 0)
+				if (gapstr_Tasks_Buffer[index].ID > 0) // if the task is active NOTE: if task ID = 0 it means it is inactive
 				{					
 					gapstr_Tasks_Buffer[index].Counts-- ;
 					
-					if (gapstr_Tasks_Buffer[index].Counts <= 0 )
+					if (gapstr_Tasks_Buffer[index].Counts <= 0 ) // delay ran out and time to execute 
 					{
 						
 							   switch (gapstr_Tasks_Buffer[index].periodicity)
 							   {
 								   case PERIODIC:
 								    {
-		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ;
+		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ; // reload to make another delay period 
 			                           gapstr_Tasks_Buffer[index].pfun_TMU();									   
 									}
 
 								   break;
 								   case ONE_SHOT:
 								    {
-									    gapstr_Tasks_Buffer[index].ID = 0 ;
+									    gapstr_Tasks_Buffer[index].ID = 0 ; // delete the task from the schedule 
 									    gapstr_Tasks_Buffer[index].pfun_TMU();
 								    }
 

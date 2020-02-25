@@ -6,7 +6,6 @@
  */ 
 
 
-//#include <avr/io.h>
 #include "TMU_Module.h"
 
 
@@ -22,14 +21,12 @@ int main(void)
 	PORTD_DIR = 0xFF;
 	TMU_ConfigType Tmu_cfg= {TIMER_0};
 	TMU_Init (&Tmu_cfg );
-	//SREG= SREG |0x80 ;// enable global interrupt
 	
-	TMU_Start_Timer(T_LED,1000 , PERIODIC, 20);
-	TMU_Start_Timer(T_LED_2,500 , PERIODIC, 30);
+	TMU_Start_Timer(T_LED,1000 , PERIODIC, 20); //task 1
+	TMU_Start_Timer(T_LED_2,500 , PERIODIC, 30); // task 2
 	
     while(1)
     {
-        //TODO:: Please write your application code 
 		TMU_Dispatch();
 		if (test>10)
 		{
