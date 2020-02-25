@@ -14,7 +14,7 @@
 #include "softwareDelay.h "
 
 /************************************************************************/
-/*			           Structures Definitions	                       */
+/*			         static Structures Definitions	                       */
 /************************************************************************/
 
 typedef struct TMU_Task_s

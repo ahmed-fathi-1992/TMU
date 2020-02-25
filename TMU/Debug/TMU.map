@@ -504,18 +504,18 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_frame   0x000001b0       0x54 TMU.o
  .debug_frame   0x00000204       0xe0 TMU_Module.o
 
-.debug_str      0x00000000      0x447
+.debug_str      0x00000000      0x443
  *(.debug_str)
- .debug_str     0x00000000       0xf5 DIO.o
-                                0x129 (size before relaxing)
- .debug_str     0x000000f5       0x5e softwareDelay.o
-                                0x10c (size before relaxing)
- .debug_str     0x00000153      0x178 Timer.o
-                                0x247 (size before relaxing)
- .debug_str     0x000002cb       0x88 TMU.o
-                                0x15c (size before relaxing)
- .debug_str     0x00000353       0xf4 TMU_Module.o
-                                0x2ba (size before relaxing)
+ .debug_str     0x00000000       0xf1 DIO.o
+                                0x125 (size before relaxing)
+ .debug_str     0x000000f1       0x5e softwareDelay.o
+                                0x108 (size before relaxing)
+ .debug_str     0x0000014f      0x178 Timer.o
+                                0x243 (size before relaxing)
+ .debug_str     0x000002c7       0x88 TMU.o
+                                0x158 (size before relaxing)
+ .debug_str     0x0000034f       0xf4 TMU_Module.o
+                                0x2b6 (size before relaxing)
 
 .debug_loc      0x00000000      0xeda
  *(.debug_loc)
