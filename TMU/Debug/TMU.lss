@@ -1,0 +1,1658 @@
+
+TMU.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000702  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000014  00800060  00000702  00000796  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000051d  00800074  00800074  000007aa  2**0
+                  ALLOC
+  3 .stab         000006cc  00000000  00000000  000007ac  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000097  00000000  00000000  00000e78  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      0000002f  00000000  00000000  00000f0f  2**0
+                  CONTENTS, READONLY
+  6 .debug_aranges 00000128  00000000  00000000  00000f3e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   00000e20  00000000  00000000  00001066  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000005b2  00000000  00000000  00001e86  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000051b  00000000  00000000  00002438  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  000002e4  00000000  00000000  00002954  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00000447  00000000  00000000  00002c38  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    00000eda  00000000  00000000  0000307f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 000000f0  00000000  00000000  00003f59  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+*In/Out:
+*Description: This function can set the direction of a full port, a nibble
+* 			  or even one pin.
+*/
+ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
+{
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+	if (DIO_info == NULL)
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+	{
+		return E_NOK;
+	}else
+	{
+		switch (DIO_info->GPIO)
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+		{
+			case GPIOA:
+			PORTA_DIR = PORTA_DIR & (~DIO_info->pins);
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+			PORTA_DIR = PORTA_DIR |(DIO_info->pins & DIO_info->dir);
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 9d 01 	jmp	0x33a	; 0x33a <__vector_11>
+			break;
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+			case GPIOB:
+			PORTB_DIR = PORTB_DIR & (~DIO_info->pins );
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+			PORTB_DIR = PORTB_DIR |(DIO_info->pins  & DIO_info->dir);
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+			default:
+			return E_NOK;
+			break;
+		}	
+	}
+	return E_OK;
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+			case GPIOB:
+			PORTB_DIR = PORTB_DIR & (~DIO_info->pins );
+			PORTB_DIR = PORTB_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+			case GPIOC:
+			PORTC_DIR = PORTC_DIR & (~DIO_info->pins );
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+			PORTC_DIR = PORTC_DIR |(DIO_info->pins  & DIO_info->dir);
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+			default:
+			return E_NOK;
+			break;
+		}	
+	}
+	return E_OK;
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+			PORTB_DIR = PORTB_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+			case GPIOC:
+			PORTC_DIR = PORTC_DIR & (~DIO_info->pins );
+			PORTC_DIR = PORTC_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+			case GPIOD:
+			PORTD_DIR = PORTD_DIR & (~DIO_info->pins );
+  66:	e2 e0       	ldi	r30, 0x02	; 2
+  68:	f7 e0       	ldi	r31, 0x07	; 7
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+			PORTD_DIR = PORTD_DIR |(DIO_info->pins  & DIO_info->dir);
+  70:	a4 37       	cpi	r26, 0x74	; 116
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	25 e0       	ldi	r18, 0x05	; 5
+  78:	a4 e7       	ldi	r26, 0x74	; 116
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+			default:
+			return E_NOK;
+			break;
+		}	
+	}
+	return E_OK;
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+			PORTC_DIR = PORTC_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+			case GPIOD:
+			PORTD_DIR = PORTD_DIR & (~DIO_info->pins );
+			PORTD_DIR = PORTD_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+*/
+ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
+{
+	if (DIO_info == NULL)
+	{
+		return E_NOK;
+  80:	a1 39       	cpi	r26, 0x91	; 145
+  82:	b2 07       	cpc	r27, r18
+			case GPIOD:
+			PORTD_DIR = PORTD_DIR & (~DIO_info->pins );
+			PORTD_DIR = PORTD_DIR |(DIO_info->pins  & DIO_info->dir);
+			break;
+			default:
+			return E_NOK;
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+			break;
+		}	
+	}
+	return E_OK;
+}
+  86:	0e 94 d7 01 	call	0x3ae	; 0x3ae <main>
+			}
+		}
+		
+	
+	
+}
+  8a:	0c 94 7f 03 	jmp	0x6fe	; 0x6fe <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <Timer_Init>:
+  92:	fc 01       	movw	r30, r24
+  94:	00 97       	sbiw	r24, 0x00	; 0
+  96:	09 f4       	brne	.+2      	; 0x9a <Timer_Init+0x8>
+  98:	26 c1       	rjmp	.+588    	; 0x2e6 <Timer_Init+0x254>
+  9a:	80 81       	ld	r24, Z
+  9c:	81 30       	cpi	r24, 0x01	; 1
+  9e:	09 f4       	brne	.+2      	; 0xa2 <Timer_Init+0x10>
+  a0:	5d c0       	rjmp	.+186    	; 0x15c <Timer_Init+0xca>
+  a2:	20 f0       	brcs	.+8      	; 0xac <Timer_Init+0x1a>
+  a4:	82 30       	cpi	r24, 0x02	; 2
+  a6:	09 f0       	breq	.+2      	; 0xaa <Timer_Init+0x18>
+	if (Timer_cfg == NULL)
+	{
+	  ret = E_NOK;
+	}else
+	{
+	   switch (Timer_cfg->Timer_CH)
+  a8:	20 c1       	rjmp	.+576    	; 0x2ea <Timer_Init+0x258>
+  aa:	c9 c0       	rjmp	.+402    	; 0x23e <Timer_Init+0x1ac>
+ */
+
+
+static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
+{
+			   	switch (Timer_cfg->Timer_Mode)
+  ac:	81 81       	ldd	r24, Z+1	; 0x01
+  ae:	88 23       	and	r24, r24
+  b0:	21 f0       	breq	.+8      	; 0xba <Timer_Init+0x28>
+  b2:	81 30       	cpi	r24, 0x01	; 1
+  b4:	09 f0       	breq	.+2      	; 0xb8 <Timer_Init+0x26>
+  b6:	4a c0       	rjmp	.+148    	; 0x14c <Timer_Init+0xba>
+  b8:	2a c0       	rjmp	.+84     	; 0x10e <Timer_Init+0x7c>
+			   	{
+				   	case TIMER_MODE:
+					   TCCR0= TCCR0 | T0_NO_CLOCK;
+  ba:	83 b7       	in	r24, 0x33	; 51
+  bc:	83 bf       	out	0x33, r24	; 51
+				   	switch (Timer_cfg->Timer_Prescaler)
+  be:	82 81       	ldd	r24, Z+2	; 0x02
+  c0:	82 30       	cpi	r24, 0x02	; 2
+  c2:	a9 f0       	breq	.+42     	; 0xee <Timer_Init+0x5c>
+  c4:	30 f4       	brcc	.+12     	; 0xd2 <Timer_Init+0x40>
+  c6:	88 23       	and	r24, r24
+  c8:	59 f0       	breq	.+22     	; 0xe0 <Timer_Init+0x4e>
+  ca:	81 30       	cpi	r24, 0x01	; 1
+  cc:	09 f0       	breq	.+2      	; 0xd0 <Timer_Init+0x3e>
+  ce:	40 c0       	rjmp	.+128    	; 0x150 <Timer_Init+0xbe>
+  d0:	0a c0       	rjmp	.+20     	; 0xe6 <Timer_Init+0x54>
+  d2:	86 30       	cpi	r24, 0x06	; 6
+  d4:	a1 f0       	breq	.+40     	; 0xfe <Timer_Init+0x6c>
+  d6:	87 30       	cpi	r24, 0x07	; 7
+  d8:	b1 f0       	breq	.+44     	; 0x106 <Timer_Init+0x74>
+  da:	84 30       	cpi	r24, 0x04	; 4
+  dc:	c9 f5       	brne	.+114    	; 0x150 <Timer_Init+0xbe>
+  de:	0b c0       	rjmp	.+22     	; 0xf6 <Timer_Init+0x64>
+				   	{
+					   	case TIMER_NO_CLOCK:
+					   	gu8_Timer0_Prescaler= T0_NO_CLOCK;
+  e0:	10 92 76 00 	sts	0x0076, r1
+  e4:	1a c0       	rjmp	.+52     	; 0x11a <Timer_Init+0x88>
+					   	break;
+					   	case TIMER_PRESCALER_NO:
+					   	gu8_Timer0_Prescaler= T0_PRESCALER_NO ;
+  e6:	81 e0       	ldi	r24, 0x01	; 1
+  e8:	80 93 76 00 	sts	0x0076, r24
+  ec:	16 c0       	rjmp	.+44     	; 0x11a <Timer_Init+0x88>
+					   	break;
+					   	case TIMER_PRESCALER_8:
+					   	gu8_Timer0_Prescaler=  T0_PRESCALER_8 ;
+  ee:	82 e0       	ldi	r24, 0x02	; 2
+  f0:	80 93 76 00 	sts	0x0076, r24
+  f4:	12 c0       	rjmp	.+36     	; 0x11a <Timer_Init+0x88>
+					   	break;
+					   	case TIMER_PRESCALER_64:
+					   	gu8_Timer0_Prescaler=  T0_PRESCALER_64 ;  						  
+  f6:	83 e0       	ldi	r24, 0x03	; 3
+  f8:	80 93 76 00 	sts	0x0076, r24
+  fc:	0e c0       	rjmp	.+28     	; 0x11a <Timer_Init+0x88>
+					   	break;
+					   	case TIMER_PRESCALER_256:
+					   	gu8_Timer0_Prescaler=  T0_PRESCALER_256 ; 
+  fe:	84 e0       	ldi	r24, 0x04	; 4
+ 100:	80 93 76 00 	sts	0x0076, r24
+ 104:	0a c0       	rjmp	.+20     	; 0x11a <Timer_Init+0x88>
+					   	break;
+					   	case TIMER_PRESCALER_1024:
+					   	gu8_Timer0_Prescaler=  T0_PRESCALER_1024 ; 
+ 106:	85 e0       	ldi	r24, 0x05	; 5
+ 108:	80 93 76 00 	sts	0x0076, r24
+ 10c:	06 c0       	rjmp	.+12     	; 0x11a <Timer_Init+0x88>
+					   	break;
+				   	}// end of Timer_cfg->Timer_Prescaler				   	
+				   	break;// end of Timer_mode
+				   	
+				   	case COUNTER_RISING_MODE:
+				   	TCCR0= TCCR0 | T0_Ex_CLOCK_RISING_EDGE ;
+ 10e:	83 b7       	in	r24, 0x33	; 51
+ 110:	87 60       	ori	r24, 0x07	; 7
+ 112:	83 bf       	out	0x33, r24	; 51
+					gu8_Timer0_Prescaler= T0_Ex_CLOCK_RISING_EDGE;    
+ 114:	87 e0       	ldi	r24, 0x07	; 7
+ 116:	80 93 76 00 	sts	0x0076, r24
+				   	break;
+			   	} // end of Timer_cfg->Timer_Mode
+			   	
+			   	/////
+			   	
+			   	switch (Timer_cfg->Timer_Polling_Or_Interrupt)
+ 11a:	83 81       	ldd	r24, Z+3	; 0x03
+ 11c:	88 23       	and	r24, r24
+ 11e:	19 f0       	breq	.+6      	; 0x126 <Timer_Init+0x94>
+ 120:	81 30       	cpi	r24, 0x01	; 1
+ 122:	c1 f4       	brne	.+48     	; 0x154 <Timer_Init+0xc2>
+ 124:	03 c0       	rjmp	.+6      	; 0x12c <Timer_Init+0x9a>
+			   	{
+				   	case TIMER_POLLING_MODE:
+				   	TIMSK = TIMSK | T0_POLLING; //Disable interrupt  
+ 126:	89 b7       	in	r24, 0x39	; 57
+ 128:	89 bf       	out	0x39, r24	; 57
+ 12a:	06 c0       	rjmp	.+12     	; 0x138 <Timer_Init+0xa6>
+				   	break;
+					   
+				   	case TIMER_INTERRUPT_MODE:
+				   	TIMSK = TIMSK | T0_INTERRUPT_NORMAL; // enable timer0 interrupt 
+ 12c:	89 b7       	in	r24, 0x39	; 57
+ 12e:	81 60       	ori	r24, 0x01	; 1
+ 130:	89 bf       	out	0x39, r24	; 57
+					 SREG= SREG |0x80 ;// enable global interrupt  
+ 132:	8f b7       	in	r24, 0x3f	; 63
+ 134:	80 68       	ori	r24, 0x80	; 128
+ 136:	8f bf       	out	0x3f, r24	; 63
+				   	break;
+			   	}	
+				   
+				/////////
+				
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+ 138:	84 81       	ldd	r24, Z+4	; 0x04
+ 13a:	95 81       	ldd	r25, Z+5	; 0x05
+ 13c:	00 97       	sbiw	r24, 0x00	; 0
+ 13e:	61 f0       	breq	.+24     	; 0x158 <Timer_Init+0xc6>
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+ 140:	90 93 75 00 	sts	0x0075, r25
+ 144:	80 93 74 00 	sts	0x0074, r24
+				}  
+				 
+	return E_OK;
+ 148:	80 e0       	ldi	r24, 0x00	; 0
+ 14a:	08 95       	ret
+				   	TCCR0= TCCR0 | T0_Ex_CLOCK_RISING_EDGE ;
+					gu8_Timer0_Prescaler= T0_Ex_CLOCK_RISING_EDGE;    
+				   	break;// end of COUNTER_RISING_MODE
+					   
+				   	default:
+				   	return E_NOK;
+ 14c:	81 e0       	ldi	r24, 0x01	; 1
+ 14e:	08 95       	ret
+					   	break;
+					   	case TIMER_PRESCALER_1024:
+					   	gu8_Timer0_Prescaler=  T0_PRESCALER_1024 ; 
+					   	break;
+					   	default:
+					   	return E_NOK;
+ 150:	81 e0       	ldi	r24, 0x01	; 1
+ 152:	08 95       	ret
+				   	TIMSK = TIMSK | T0_INTERRUPT_NORMAL; // enable timer0 interrupt 
+					 SREG= SREG |0x80 ;// enable global interrupt  
+				   	break;
+					   
+				   	default:
+				   	return E_NOK;
+ 154:	81 e0       	ldi	r24, 0x01	; 1
+ 156:	08 95       	ret
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+				}  
+				 
+	return E_OK;
+ 158:	80 e0       	ldi	r24, 0x00	; 0
+	{
+	   switch (Timer_cfg->Timer_CH)
+		{
+	       case TIMER_0:
+		   // PORTD_DATA=0x01;
+           return Timer0_Init(Timer_cfg);		   
+ 15a:	08 95       	ret
+ * 							
+ */
+
+static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
+{
+			   	switch (Timer_cfg->Timer_Mode)
+ 15c:	81 81       	ldd	r24, Z+1	; 0x01
+ 15e:	88 23       	and	r24, r24
+ 160:	21 f0       	breq	.+8      	; 0x16a <Timer_Init+0xd8>
+ 162:	81 30       	cpi	r24, 0x01	; 1
+ 164:	09 f0       	breq	.+2      	; 0x168 <Timer_Init+0xd6>
+ 166:	63 c0       	rjmp	.+198    	; 0x22e <Timer_Init+0x19c>
+ 168:	3e c0       	rjmp	.+124    	; 0x1e6 <Timer_Init+0x154>
+			   	{
+				   	case TIMER_MODE:
+					   TCCR1= TCCR1 | T1_NO_CLOCK;
+ 16a:	8e b5       	in	r24, 0x2e	; 46
+ 16c:	9f b5       	in	r25, 0x2f	; 47
+ 16e:	9f bd       	out	0x2f, r25	; 47
+ 170:	8e bd       	out	0x2e, r24	; 46
+				   	switch (Timer_cfg->Timer_Prescaler)
+ 172:	82 81       	ldd	r24, Z+2	; 0x02
+ 174:	82 30       	cpi	r24, 0x02	; 2
+ 176:	d9 f0       	breq	.+54     	; 0x1ae <Timer_Init+0x11c>
+ 178:	30 f4       	brcc	.+12     	; 0x186 <Timer_Init+0xf4>
+ 17a:	88 23       	and	r24, r24
+ 17c:	61 f0       	breq	.+24     	; 0x196 <Timer_Init+0x104>
+ 17e:	81 30       	cpi	r24, 0x01	; 1
+ 180:	09 f0       	breq	.+2      	; 0x184 <Timer_Init+0xf2>
+ 182:	57 c0       	rjmp	.+174    	; 0x232 <Timer_Init+0x1a0>
+ 184:	0d c0       	rjmp	.+26     	; 0x1a0 <Timer_Init+0x10e>
+ 186:	86 30       	cpi	r24, 0x06	; 6
+ 188:	01 f1       	breq	.+64     	; 0x1ca <Timer_Init+0x138>
+ 18a:	87 30       	cpi	r24, 0x07	; 7
+ 18c:	29 f1       	breq	.+74     	; 0x1d8 <Timer_Init+0x146>
+ 18e:	84 30       	cpi	r24, 0x04	; 4
+ 190:	09 f0       	breq	.+2      	; 0x194 <Timer_Init+0x102>
+ 192:	4f c0       	rjmp	.+158    	; 0x232 <Timer_Init+0x1a0>
+ 194:	13 c0       	rjmp	.+38     	; 0x1bc <Timer_Init+0x12a>
+				   	{
+					   	case TIMER_NO_CLOCK:
+					   	gu16_Timer1_Prescaler= T1_NO_CLOCK; 
+ 196:	10 92 78 00 	sts	0x0078, r1
+ 19a:	10 92 77 00 	sts	0x0077, r1
+ 19e:	2e c0       	rjmp	.+92     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+					   	case TIMER_PRESCALER_NO:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_NO ;
+ 1a0:	81 e0       	ldi	r24, 0x01	; 1
+ 1a2:	90 e0       	ldi	r25, 0x00	; 0
+ 1a4:	90 93 78 00 	sts	0x0078, r25
+ 1a8:	80 93 77 00 	sts	0x0077, r24
+ 1ac:	27 c0       	rjmp	.+78     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+					   	case TIMER_PRESCALER_8:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_8 ;
+ 1ae:	82 e0       	ldi	r24, 0x02	; 2
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	90 93 78 00 	sts	0x0078, r25
+ 1b6:	80 93 77 00 	sts	0x0077, r24
+ 1ba:	20 c0       	rjmp	.+64     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+					   	case TIMER_PRESCALER_64:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_64 ;
+ 1bc:	83 e0       	ldi	r24, 0x03	; 3
+ 1be:	90 e0       	ldi	r25, 0x00	; 0
+ 1c0:	90 93 78 00 	sts	0x0078, r25
+ 1c4:	80 93 77 00 	sts	0x0077, r24
+ 1c8:	19 c0       	rjmp	.+50     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+					   	case TIMER_PRESCALER_256:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_256 ;
+ 1ca:	84 e0       	ldi	r24, 0x04	; 4
+ 1cc:	90 e0       	ldi	r25, 0x00	; 0
+ 1ce:	90 93 78 00 	sts	0x0078, r25
+ 1d2:	80 93 77 00 	sts	0x0077, r24
+ 1d6:	12 c0       	rjmp	.+36     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+					   	case TIMER_PRESCALER_1024:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_1024 ;
+ 1d8:	85 e0       	ldi	r24, 0x05	; 5
+ 1da:	90 e0       	ldi	r25, 0x00	; 0
+ 1dc:	90 93 78 00 	sts	0x0078, r25
+ 1e0:	80 93 77 00 	sts	0x0077, r24
+ 1e4:	0b c0       	rjmp	.+22     	; 0x1fc <Timer_Init+0x16a>
+					   	break;
+				   	}// end of Timer_cfg->Timer_Prescaler
+				   	break;// end of Timer_mode
+				   	
+				   	case COUNTER_RISING_MODE:
+				   	TCCR1= TCCR1 | T1_Ex_CLOCK_RISING_EDGE ;
+ 1e6:	8e b5       	in	r24, 0x2e	; 46
+ 1e8:	9f b5       	in	r25, 0x2f	; 47
+ 1ea:	87 60       	ori	r24, 0x07	; 7
+ 1ec:	9f bd       	out	0x2f, r25	; 47
+ 1ee:	8e bd       	out	0x2e, r24	; 46
+					gu16_Timer1_Prescaler= T1_Ex_CLOCK_RISING_EDGE;
+ 1f0:	87 e0       	ldi	r24, 0x07	; 7
+ 1f2:	90 e0       	ldi	r25, 0x00	; 0
+ 1f4:	90 93 78 00 	sts	0x0078, r25
+ 1f8:	80 93 77 00 	sts	0x0077, r24
+				   	break;
+			   	} // end of Timer_cfg->Timer_Mode
+			   	
+			   	/////
+			   	
+			   	switch (Timer_cfg->Timer_Polling_Or_Interrupt)
+ 1fc:	83 81       	ldd	r24, Z+3	; 0x03
+ 1fe:	88 23       	and	r24, r24
+ 200:	19 f0       	breq	.+6      	; 0x208 <Timer_Init+0x176>
+ 202:	81 30       	cpi	r24, 0x01	; 1
+ 204:	c1 f4       	brne	.+48     	; 0x236 <Timer_Init+0x1a4>
+ 206:	03 c0       	rjmp	.+6      	; 0x20e <Timer_Init+0x17c>
+			   	{
+				   	case TIMER_POLLING_MODE:
+				   	TIMSK = TIMSK | T1_POLLING;//Disable  interrupt 
+ 208:	89 b7       	in	r24, 0x39	; 57
+ 20a:	89 bf       	out	0x39, r24	; 57
+ 20c:	06 c0       	rjmp	.+12     	; 0x21a <Timer_Init+0x188>
+				   	break;
+				   	case TIMER_INTERRUPT_MODE:
+				   	TIMSK = TIMSK | T1_INTERRUPT_NORMAL;// enable Timer1 interrupt
+ 20e:	89 b7       	in	r24, 0x39	; 57
+ 210:	84 60       	ori	r24, 0x04	; 4
+ 212:	89 bf       	out	0x39, r24	; 57
+					 SREG= SREG |0x80 ;// enable global interrupt
+ 214:	8f b7       	in	r24, 0x3f	; 63
+ 216:	80 68       	ori	r24, 0x80	; 128
+ 218:	8f bf       	out	0x3f, r24	; 63
+				   	return E_NOK;
+				   	break;
+			   	}
+			   ///////
+			   	
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+ 21a:	84 81       	ldd	r24, Z+4	; 0x04
+ 21c:	95 81       	ldd	r25, Z+5	; 0x05
+ 21e:	00 97       	sbiw	r24, 0x00	; 0
+ 220:	61 f0       	breq	.+24     	; 0x23a <Timer_Init+0x1a8>
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+ 222:	90 93 75 00 	sts	0x0075, r25
+ 226:	80 93 74 00 	sts	0x0074, r24
+				}		   
+	return E_OK;
+ 22a:	80 e0       	ldi	r24, 0x00	; 0
+ 22c:	08 95       	ret
+				   	case COUNTER_RISING_MODE:
+				   	TCCR1= TCCR1 | T1_Ex_CLOCK_RISING_EDGE ;
+					gu16_Timer1_Prescaler= T1_Ex_CLOCK_RISING_EDGE;
+				   	break;
+				   	default:
+				   	return E_NOK;
+ 22e:	81 e0       	ldi	r24, 0x01	; 1
+ 230:	08 95       	ret
+					   	break;
+					   	case TIMER_PRESCALER_1024:
+					   	gu16_Timer1_Prescaler= T1_PRESCALER_1024 ;
+					   	break;
+					   	default:
+					   	return E_NOK;
+ 232:	81 e0       	ldi	r24, 0x01	; 1
+ 234:	08 95       	ret
+				   	case TIMER_INTERRUPT_MODE:
+				   	TIMSK = TIMSK | T1_INTERRUPT_NORMAL;// enable Timer1 interrupt
+					 SREG= SREG |0x80 ;// enable global interrupt
+				   	break;
+				   	default:
+				   	return E_NOK;
+ 236:	81 e0       	ldi	r24, 0x01	; 1
+ 238:	08 95       	ret
+			   	
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+				}		   
+	return E_OK;
+ 23a:	80 e0       	ldi	r24, 0x00	; 0
+	       case TIMER_0:
+		   // PORTD_DATA=0x01;
+           return Timer0_Init(Timer_cfg);		   
+		   break; 	   
+		   case TIMER_1:
+           return Timer1_Init( Timer_cfg);
+ 23c:	08 95       	ret
+ * 							
+ */
+
+static ERROR_STATUS Timer2_Init(Timer_cfg_s* Timer_cfg)
+{
+		       switch (Timer_cfg->Timer_Mode)
+ 23e:	81 81       	ldd	r24, Z+1	; 0x01
+ 240:	81 11       	cpse	r24, r1
+ 242:	49 c0       	rjmp	.+146    	; 0x2d6 <Timer_Init+0x244>
+		       {
+			       case TIMER_MODE:
+				       TCCR2= TCCR2 | T2_NO_CLOCK;
+ 244:	85 b5       	in	r24, 0x25	; 37
+ 246:	85 bd       	out	0x25, r24	; 37
+				       switch (Timer_cfg->Timer_Prescaler)
+ 248:	82 81       	ldd	r24, Z+2	; 0x02
+ 24a:	83 30       	cpi	r24, 0x03	; 3
+ 24c:	c1 f0       	breq	.+48     	; 0x27e <Timer_Init+0x1ec>
+ 24e:	20 f4       	brcc	.+8      	; 0x258 <Timer_Init+0x1c6>
+ 250:	81 30       	cpi	r24, 0x01	; 1
+ 252:	69 f0       	breq	.+26     	; 0x26e <Timer_Init+0x1dc>
+ 254:	80 f4       	brcc	.+32     	; 0x276 <Timer_Init+0x1e4>
+ 256:	08 c0       	rjmp	.+16     	; 0x268 <Timer_Init+0x1d6>
+ 258:	85 30       	cpi	r24, 0x05	; 5
+ 25a:	c9 f0       	breq	.+50     	; 0x28e <Timer_Init+0x1fc>
+ 25c:	a0 f0       	brcs	.+40     	; 0x286 <Timer_Init+0x1f4>
+ 25e:	86 30       	cpi	r24, 0x06	; 6
+ 260:	d1 f0       	breq	.+52     	; 0x296 <Timer_Init+0x204>
+ 262:	87 30       	cpi	r24, 0x07	; 7
+ 264:	d1 f5       	brne	.+116    	; 0x2da <Timer_Init+0x248>
+ 266:	1b c0       	rjmp	.+54     	; 0x29e <Timer_Init+0x20c>
+				       {
+					       case TIMER_NO_CLOCK:						   
+					       gu8_Timer2_Prescaler= T2_NO_CLOCK ;
+ 268:	10 92 79 00 	sts	0x0079, r1
+ 26c:	1b c0       	rjmp	.+54     	; 0x2a4 <Timer_Init+0x212>
+					       break;
+					       case TIMER_PRESCALER_NO:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_NO ;
+ 26e:	81 e0       	ldi	r24, 0x01	; 1
+ 270:	80 93 79 00 	sts	0x0079, r24
+ 274:	17 c0       	rjmp	.+46     	; 0x2a4 <Timer_Init+0x212>
+					       break;
+					       case TIMER_PRESCALER_8:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_8 ;
+ 276:	82 e0       	ldi	r24, 0x02	; 2
+ 278:	80 93 79 00 	sts	0x0079, r24
+ 27c:	13 c0       	rjmp	.+38     	; 0x2a4 <Timer_Init+0x212>
+					       break;
+					       case TIMER_PRESCALER_32:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_32 ;
+ 27e:	83 e0       	ldi	r24, 0x03	; 3
+ 280:	80 93 79 00 	sts	0x0079, r24
+ 284:	0f c0       	rjmp	.+30     	; 0x2a4 <Timer_Init+0x212>
+					       break;
+					       case TIMER_PRESCALER_64:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_64 ;
+ 286:	84 e0       	ldi	r24, 0x04	; 4
+ 288:	80 93 79 00 	sts	0x0079, r24
+ 28c:	0b c0       	rjmp	.+22     	; 0x2a4 <Timer_Init+0x212>
+					       break;	
+					       case TIMER_PRESCALER_128:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_128 ;
+ 28e:	85 e0       	ldi	r24, 0x05	; 5
+ 290:	80 93 79 00 	sts	0x0079, r24
+ 294:	07 c0       	rjmp	.+14     	; 0x2a4 <Timer_Init+0x212>
+					       break;						   					   
+					       case TIMER_PRESCALER_256:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_256 ;
+ 296:	86 e0       	ldi	r24, 0x06	; 6
+ 298:	80 93 79 00 	sts	0x0079, r24
+ 29c:	03 c0       	rjmp	.+6      	; 0x2a4 <Timer_Init+0x212>
+					       break;
+					       case TIMER_PRESCALER_1024:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_1024 ;
+ 29e:	87 e0       	ldi	r24, 0x07	; 7
+ 2a0:	80 93 79 00 	sts	0x0079, r24
+			       default:
+			       return E_NOK;
+			       break;
+		       } // end of Timer_cfg->Timer_Mode
+		       	       
+		       switch (Timer_cfg->Timer_Polling_Or_Interrupt)
+ 2a4:	83 81       	ldd	r24, Z+3	; 0x03
+ 2a6:	88 23       	and	r24, r24
+ 2a8:	19 f0       	breq	.+6      	; 0x2b0 <Timer_Init+0x21e>
+ 2aa:	81 30       	cpi	r24, 0x01	; 1
+ 2ac:	c1 f4       	brne	.+48     	; 0x2de <Timer_Init+0x24c>
+ 2ae:	03 c0       	rjmp	.+6      	; 0x2b6 <Timer_Init+0x224>
+		       {
+			       case TIMER_POLLING_MODE:
+			       TIMSK = TIMSK | T2_POLLING; //Disable  interrupt
+ 2b0:	89 b7       	in	r24, 0x39	; 57
+ 2b2:	89 bf       	out	0x39, r24	; 57
+ 2b4:	06 c0       	rjmp	.+12     	; 0x2c2 <Timer_Init+0x230>
+			       break;
+			       case TIMER_INTERRUPT_MODE:
+			       TIMSK = TIMSK | T2_INTERRUPT_CMP; // enable Tmer2 interrupt
+ 2b6:	89 b7       	in	r24, 0x39	; 57
+ 2b8:	80 68       	ori	r24, 0x80	; 128
+ 2ba:	89 bf       	out	0x39, r24	; 57
+				   SREG= SREG |0x80 ;// enable global interrupt
+ 2bc:	8f b7       	in	r24, 0x3f	; 63
+ 2be:	80 68       	ori	r24, 0x80	; 128
+ 2c0:	8f bf       	out	0x3f, r24	; 63
+			       return E_NOK;
+			       break;
+		       }
+			   /////////
+			   
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+ 2c2:	84 81       	ldd	r24, Z+4	; 0x04
+ 2c4:	95 81       	ldd	r25, Z+5	; 0x05
+ 2c6:	00 97       	sbiw	r24, 0x00	; 0
+ 2c8:	61 f0       	breq	.+24     	; 0x2e2 <Timer_Init+0x250>
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+ 2ca:	90 93 75 00 	sts	0x0075, r25
+ 2ce:	80 93 74 00 	sts	0x0074, r24
+				}			   
+	
+	return E_OK;
+ 2d2:	80 e0       	ldi	r24, 0x00	; 0
+ 2d4:	08 95       	ret
+				       }// end of Timer_cfg->Timer_Prescaler
+					   			       
+			       break; // end of Timer_mode
+				   
+			       case COUNTER_RISING_MODE:
+				   return E_NOK;
+ 2d6:	81 e0       	ldi	r24, 0x01	; 1
+ 2d8:	08 95       	ret
+					       break;
+					       case TIMER_PRESCALER_1024:
+					       gu8_Timer2_Prescaler= T2_PRESCALER_1024 ;
+					       break;
+					       default:
+					       return E_NOK;
+ 2da:	81 e0       	ldi	r24, 0x01	; 1
+ 2dc:	08 95       	ret
+			       case TIMER_INTERRUPT_MODE:
+			       TIMSK = TIMSK | T2_INTERRUPT_CMP; // enable Tmer2 interrupt
+				   SREG= SREG |0x80 ;// enable global interrupt
+			       break;
+			       default:
+			       return E_NOK;
+ 2de:	81 e0       	ldi	r24, 0x01	; 1
+ 2e0:	08 95       	ret
+				if(Timer_cfg->Timer_Cbk_ptr != NULL)
+				{
+					gpfun_back = Timer_cfg->Timer_Cbk_ptr;
+				}			   
+	
+	return E_OK;
+ 2e2:	80 e0       	ldi	r24, 0x00	; 0
+		   break; 	   
+		   case TIMER_1:
+           return Timer1_Init( Timer_cfg);
+		   break;
+		   case TIMER_2:
+	       return Timer2_Init( Timer_cfg);
+ 2e4:	08 95       	ret
+		   default:
+		   ret = E_NOK;
+		   break;
+		}
+	}
+	return ret ;
+ 2e6:	81 e0       	ldi	r24, 0x01	; 1
+ 2e8:	08 95       	ret
+ 2ea:	81 e0       	ldi	r24, 0x01	; 1
+}
+ 2ec:	08 95       	ret
+
+000002ee <Timer_Start>:
+ * Description: This function strats the needed timer.
+ * 							
+ */
+ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
+{
+		switch (Timer_CH_NO)
+ 2ee:	81 30       	cpi	r24, 0x01	; 1
+ 2f0:	61 f0       	breq	.+24     	; 0x30a <Timer_Start+0x1c>
+ 2f2:	18 f0       	brcs	.+6      	; 0x2fa <Timer_Start+0xc>
+ 2f4:	82 30       	cpi	r24, 0x02	; 2
+ 2f6:	f9 f4       	brne	.+62     	; 0x336 <Timer_Start+0x48>
+ 2f8:	16 c0       	rjmp	.+44     	; 0x326 <Timer_Start+0x38>
+		{
+			case TIMER_0:
+			 TCNT0=(uint8_t)Timer_Count;
+ 2fa:	62 bf       	out	0x32, r22	; 50
+			 TCCR0= TCCR0 | gu8_Timer0_Prescaler;						
+ 2fc:	93 b7       	in	r25, 0x33	; 51
+ 2fe:	80 91 76 00 	lds	r24, 0x0076
+ 302:	89 2b       	or	r24, r25
+ 304:	83 bf       	out	0x33, r24	; 51
+			default:
+			return E_NOK;
+			break;
+		}
+	
+return E_OK;	
+ 306:	80 e0       	ldi	r24, 0x00	; 0
+		switch (Timer_CH_NO)
+		{
+			case TIMER_0:
+			 TCNT0=(uint8_t)Timer_Count;
+			 TCCR0= TCCR0 | gu8_Timer0_Prescaler;						
+			break;
+ 308:	08 95       	ret
+			
+			case TIMER_1:			
+			 TCNT1=Timer_Count;
+ 30a:	7d bd       	out	0x2d, r23	; 45
+ 30c:	6c bd       	out	0x2c, r22	; 44
+			 TCCR1= TCCR1 | gu16_Timer1_Prescaler;
+ 30e:	2e b5       	in	r18, 0x2e	; 46
+ 310:	3f b5       	in	r19, 0x2f	; 47
+ 312:	80 91 77 00 	lds	r24, 0x0077
+ 316:	90 91 78 00 	lds	r25, 0x0078
+ 31a:	82 2b       	or	r24, r18
+ 31c:	93 2b       	or	r25, r19
+ 31e:	9f bd       	out	0x2f, r25	; 47
+ 320:	8e bd       	out	0x2e, r24	; 46
+			default:
+			return E_NOK;
+			break;
+		}
+	
+return E_OK;	
+ 322:	80 e0       	ldi	r24, 0x00	; 0
+			break;
+			
+			case TIMER_1:			
+			 TCNT1=Timer_Count;
+			 TCCR1= TCCR1 | gu16_Timer1_Prescaler;
+			break;
+ 324:	08 95       	ret
+			
+			case TIMER_2:		
+			TCNT2=(uint8_t)Timer_Count;
+ 326:	64 bd       	out	0x24, r22	; 36
+			TCCR2= TCCR2 | gu8_Timer2_Prescaler;
+ 328:	95 b5       	in	r25, 0x25	; 37
+ 32a:	80 91 79 00 	lds	r24, 0x0079
+ 32e:	89 2b       	or	r24, r25
+ 330:	85 bd       	out	0x25, r24	; 37
+			default:
+			return E_NOK;
+			break;
+		}
+	
+return E_OK;	
+ 332:	80 e0       	ldi	r24, 0x00	; 0
+			break;
+			
+			case TIMER_2:		
+			TCNT2=(uint8_t)Timer_Count;
+			TCCR2= TCCR2 | gu8_Timer2_Prescaler;
+			break;
+ 334:	08 95       	ret
+			
+			default:
+			return E_NOK;
+ 336:	81 e0       	ldi	r24, 0x01	; 1
+			break;
+		}
+	
+return E_OK;	
+}
+ 338:	08 95       	ret
+
+0000033a <__vector_11>:
+
+
+
+
+ISR(TIMER0_OVF_vector)
+{
+ 33a:	1f 92       	push	r1
+ 33c:	0f 92       	push	r0
+ 33e:	0f b6       	in	r0, 0x3f	; 63
+ 340:	0f 92       	push	r0
+ 342:	11 24       	eor	r1, r1
+ 344:	2f 93       	push	r18
+ 346:	3f 93       	push	r19
+ 348:	4f 93       	push	r20
+ 34a:	5f 93       	push	r21
+ 34c:	6f 93       	push	r22
+ 34e:	7f 93       	push	r23
+ 350:	8f 93       	push	r24
+ 352:	9f 93       	push	r25
+ 354:	af 93       	push	r26
+ 356:	bf 93       	push	r27
+ 358:	ef 93       	push	r30
+ 35a:	ff 93       	push	r31
+
+	if (gpfun_back != NULL)
+ 35c:	80 91 74 00 	lds	r24, 0x0074
+ 360:	90 91 75 00 	lds	r25, 0x0075
+ 364:	89 2b       	or	r24, r25
+ 366:	29 f0       	breq	.+10     	; 0x372 <__vector_11+0x38>
+	{
+		gpfun_back();
+ 368:	e0 91 74 00 	lds	r30, 0x0074
+ 36c:	f0 91 75 00 	lds	r31, 0x0075
+ 370:	09 95       	icall
+	}
+	
+}
+ 372:	ff 91       	pop	r31
+ 374:	ef 91       	pop	r30
+ 376:	bf 91       	pop	r27
+ 378:	af 91       	pop	r26
+ 37a:	9f 91       	pop	r25
+ 37c:	8f 91       	pop	r24
+ 37e:	7f 91       	pop	r23
+ 380:	6f 91       	pop	r22
+ 382:	5f 91       	pop	r21
+ 384:	4f 91       	pop	r20
+ 386:	3f 91       	pop	r19
+ 388:	2f 91       	pop	r18
+ 38a:	0f 90       	pop	r0
+ 38c:	0f be       	out	0x3f, r0	; 63
+ 38e:	0f 90       	pop	r0
+ 390:	1f 90       	pop	r1
+ 392:	18 95       	reti
+
+00000394 <T_LED>:
+}
+
+
+void T_LED(void)
+{
+	PORTC_DATA = ~PORTC_DATA;
+ 394:	85 b3       	in	r24, 0x15	; 21
+ 396:	80 95       	com	r24
+ 398:	85 bb       	out	0x15, r24	; 21
+	test++;
+ 39a:	80 91 7a 00 	lds	r24, 0x007A
+ 39e:	8f 5f       	subi	r24, 0xFF	; 255
+ 3a0:	80 93 7a 00 	sts	0x007A, r24
+ 3a4:	08 95       	ret
+
+000003a6 <T_LED_2>:
+}
+
+void T_LED_2(void)
+{
+	PORTD_DATA = ~PORTD_DATA;
+ 3a6:	82 b3       	in	r24, 0x12	; 18
+ 3a8:	80 95       	com	r24
+ 3aa:	82 bb       	out	0x12, r24	; 18
+ 3ac:	08 95       	ret
+
+000003ae <main>:
+
+void T_LED(void);
+void T_LED_2(void);
+
+int main(void)
+{
+ 3ae:	cf 93       	push	r28
+ 3b0:	df 93       	push	r29
+ 3b2:	1f 92       	push	r1
+ 3b4:	cd b7       	in	r28, 0x3d	; 61
+ 3b6:	de b7       	in	r29, 0x3e	; 62
+	
+	PORTC_DIR = 0xFF;
+ 3b8:	8f ef       	ldi	r24, 0xFF	; 255
+ 3ba:	84 bb       	out	0x14, r24	; 20
+	PORTD_DIR = 0xFF;
+ 3bc:	81 bb       	out	0x11, r24	; 17
+	TMU_ConfigType Tmu_cfg= {TIMER_0};
+ 3be:	19 82       	std	Y+1, r1	; 0x01
+	TMU_Init (&Tmu_cfg );
+ 3c0:	ce 01       	movw	r24, r28
+ 3c2:	01 96       	adiw	r24, 0x01	; 1
+ 3c4:	0e 94 0e 02 	call	0x41c	; 0x41c <TMU_Init>
+	//SREG= SREG |0x80 ;// enable global interrupt
+	
+	TMU_Start_Timer(T_LED,1000 , PERIODIC, 20);
+ 3c8:	04 e1       	ldi	r16, 0x14	; 20
+ 3ca:	21 e0       	ldi	r18, 0x01	; 1
+ 3cc:	48 ee       	ldi	r20, 0xE8	; 232
+ 3ce:	53 e0       	ldi	r21, 0x03	; 3
+ 3d0:	60 e0       	ldi	r22, 0x00	; 0
+ 3d2:	70 e0       	ldi	r23, 0x00	; 0
+ 3d4:	8a ec       	ldi	r24, 0xCA	; 202
+ 3d6:	91 e0       	ldi	r25, 0x01	; 1
+ 3d8:	0e 94 63 02 	call	0x4c6	; 0x4c6 <TMU_Start_Timer>
+	TMU_Start_Timer(T_LED_2,500 , PERIODIC, 30);
+ 3dc:	0e e1       	ldi	r16, 0x1E	; 30
+ 3de:	21 e0       	ldi	r18, 0x01	; 1
+ 3e0:	44 ef       	ldi	r20, 0xF4	; 244
+ 3e2:	51 e0       	ldi	r21, 0x01	; 1
+ 3e4:	60 e0       	ldi	r22, 0x00	; 0
+ 3e6:	70 e0       	ldi	r23, 0x00	; 0
+ 3e8:	83 ed       	ldi	r24, 0xD3	; 211
+ 3ea:	91 e0       	ldi	r25, 0x01	; 1
+ 3ec:	0e 94 63 02 	call	0x4c6	; 0x4c6 <TMU_Start_Timer>
+	
+    while(1)
+    {
+        //TODO:: Please write your application code 
+		TMU_Dispatch();
+ 3f0:	0e 94 1e 03 	call	0x63c	; 0x63c <TMU_Dispatch>
+		if (test>10)
+ 3f4:	80 91 7a 00 	lds	r24, 0x007A
+ 3f8:	8b 30       	cpi	r24, 0x0B	; 11
+ 3fa:	d0 f3       	brcs	.-12     	; 0x3f0 <main+0x42>
+		{
+			TMU_Stop_Timer(20);
+ 3fc:	84 e1       	ldi	r24, 0x14	; 20
+ 3fe:	0e 94 ef 02 	call	0x5de	; 0x5de <TMU_Stop_Timer>
+ 402:	f6 cf       	rjmp	.-20     	; 0x3f0 <main+0x42>
+
+00000404 <T0_OV_Callback>:
+ * Description: This is the callBack function used to set a flag every timer overflow to make periodic interrupt every 1 ms .
+ * 							
+ */
+static void T0_OV_Callback(void)
+{
+ Timer_Start(TIMER_0, 6); // preloaded timer with 6 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
+ 404:	66 e0       	ldi	r22, 0x06	; 6
+ 406:	70 e0       	ldi	r23, 0x00	; 0
+ 408:	80 e0       	ldi	r24, 0x00	; 0
+ 40a:	0e 94 77 01 	call	0x2ee	; 0x2ee <Timer_Start>
+ gu8_TOV_Flag =1 ;
+ 40e:	81 e0       	ldi	r24, 0x01	; 1
+ 410:	80 93 7b 00 	sts	0x007B, r24
+ PORTB_DATA = ~PORTB_DATA;	//for debug	
+ 414:	88 b3       	in	r24, 0x18	; 24
+ 416:	80 95       	com	r24
+ 418:	88 bb       	out	0x18, r24	; 24
+ 41a:	08 95       	ret
+
+0000041c <TMU_Init>:
+ * Return: The error status of the function.			
+ * Description: Initiates the module.
+ * 							
+ */
+EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr ) 
+{
+ 41c:	cf 93       	push	r28
+ 41e:	df 93       	push	r29
+ 420:	cd b7       	in	r28, 0x3d	; 61
+ 422:	de b7       	in	r29, 0x3e	; 62
+ 424:	62 97       	sbiw	r28, 0x12	; 18
+ 426:	0f b6       	in	r0, 0x3f	; 63
+ 428:	f8 94       	cli
+ 42a:	de bf       	out	0x3e, r29	; 62
+ 42c:	0f be       	out	0x3f, r0	; 63
+ 42e:	cd bf       	out	0x3d, r28	; 61
+	EnmTMUError_t Error_Num = NOT_INIT;
+	
+		Timer_cfg_s Timer0_cfg= {TIMER_0,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
+ 430:	26 e0       	ldi	r18, 0x06	; 6
+ 432:	e1 e6       	ldi	r30, 0x61	; 97
+ 434:	f0 e0       	ldi	r31, 0x00	; 0
+ 436:	de 01       	movw	r26, r28
+ 438:	11 96       	adiw	r26, 0x01	; 1
+ 43a:	01 90       	ld	r0, Z+
+ 43c:	0d 92       	st	X+, r0
+ 43e:	2a 95       	dec	r18
+ 440:	e1 f7       	brne	.-8      	; 0x43a <TMU_Init+0x1e>
+		Timer_cfg_s Timer1_cfg= {TIMER_1,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};	
+ 442:	26 e0       	ldi	r18, 0x06	; 6
+ 444:	e7 e6       	ldi	r30, 0x67	; 103
+ 446:	f0 e0       	ldi	r31, 0x00	; 0
+ 448:	de 01       	movw	r26, r28
+ 44a:	17 96       	adiw	r26, 0x07	; 7
+ 44c:	01 90       	ld	r0, Z+
+ 44e:	0d 92       	st	X+, r0
+ 450:	2a 95       	dec	r18
+ 452:	e1 f7       	brne	.-8      	; 0x44c <TMU_Init+0x30>
+		Timer_cfg_s Timer2_cfg= {TIMER_2,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
+ 454:	26 e0       	ldi	r18, 0x06	; 6
+ 456:	ed e6       	ldi	r30, 0x6D	; 109
+ 458:	f0 e0       	ldi	r31, 0x00	; 0
+ 45a:	de 01       	movw	r26, r28
+ 45c:	1d 96       	adiw	r26, 0x0d	; 13
+ 45e:	01 90       	ld	r0, Z+
+ 460:	0d 92       	st	X+, r0
+ 462:	2a 95       	dec	r18
+ 464:	e1 f7       	brne	.-8      	; 0x45e <TMU_Init+0x42>
+
+	if (ConfigPtr == NULL)
+ 466:	00 97       	sbiw	r24, 0x00	; 0
+ 468:	11 f1       	breq	.+68     	; 0x4ae <TMU_Init+0x92>
+	{
+		Error_Num = NULL_PTR;
+	}else
+	{
+		switch (ConfigPtr->Timer_CH)
+ 46a:	fc 01       	movw	r30, r24
+ 46c:	80 81       	ld	r24, Z
+ 46e:	81 30       	cpi	r24, 0x01	; 1
+ 470:	61 f0       	breq	.+24     	; 0x48a <TMU_Init+0x6e>
+ 472:	18 f0       	brcs	.+6      	; 0x47a <TMU_Init+0x5e>
+ 474:	82 30       	cpi	r24, 0x02	; 2
+ 476:	e9 f4       	brne	.+58     	; 0x4b2 <TMU_Init+0x96>
+ 478:	11 c0       	rjmp	.+34     	; 0x49c <TMU_Init+0x80>
+		{
+			case TIMER_0:
+			    {
+					Timer_Init(&Timer0_cfg);
+ 47a:	ce 01       	movw	r24, r28
+ 47c:	01 96       	adiw	r24, 0x01	; 1
+ 47e:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
+					gu8_TMU_Timer_Ch = TIMER_0 ;
+ 482:	10 92 60 00 	sts	0x0060, r1
+					Error_Num = E_OK;
+ 486:	80 e0       	ldi	r24, 0x00	; 0
+				}
+			break;
+ 488:	15 c0       	rjmp	.+42     	; 0x4b4 <TMU_Init+0x98>
+			
+			case TIMER_1:
+			    {
+					Timer_Init(&Timer1_cfg);
+ 48a:	ce 01       	movw	r24, r28
+ 48c:	07 96       	adiw	r24, 0x07	; 7
+ 48e:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
+					gu8_TMU_Timer_Ch = TIMER_1 ; 
+ 492:	81 e0       	ldi	r24, 0x01	; 1
+ 494:	80 93 60 00 	sts	0x0060, r24
+					Error_Num = E_OK;
+ 498:	80 e0       	ldi	r24, 0x00	; 0
+				}
+			break;
+ 49a:	0c c0       	rjmp	.+24     	; 0x4b4 <TMU_Init+0x98>
+			
+			case TIMER_2:
+			    {
+				   Timer_Init(&Timer2_cfg);
+ 49c:	ce 01       	movw	r24, r28
+ 49e:	0d 96       	adiw	r24, 0x0d	; 13
+ 4a0:	0e 94 49 00 	call	0x92	; 0x92 <Timer_Init>
+				   gu8_TMU_Timer_Ch = TIMER_2 ;
+ 4a4:	82 e0       	ldi	r24, 0x02	; 2
+ 4a6:	80 93 60 00 	sts	0x0060, r24
+				   Error_Num = E_OK;
+ 4aa:	80 e0       	ldi	r24, 0x00	; 0
+			    }
+			break;
+ 4ac:	03 c0       	rjmp	.+6      	; 0x4b4 <TMU_Init+0x98>
+		Timer_cfg_s Timer1_cfg= {TIMER_1,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};	
+		Timer_cfg_s Timer2_cfg= {TIMER_2,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
+
+	if (ConfigPtr == NULL)
+	{
+		Error_Num = NULL_PTR;
+ 4ae:	81 e0       	ldi	r24, 0x01	; 1
+ 4b0:	01 c0       	rjmp	.+2      	; 0x4b4 <TMU_Init+0x98>
+				   Error_Num = E_OK;
+			    }
+			break;
+			
+			default:
+			Error_Num = INVALID_ARGUMENT;
+ 4b2:	87 e0       	ldi	r24, 0x07	; 7
+			break;
+		}
+	}
+	return Error_Num ;	
+}
+ 4b4:	62 96       	adiw	r28, 0x12	; 18
+ 4b6:	0f b6       	in	r0, 0x3f	; 63
+ 4b8:	f8 94       	cli
+ 4ba:	de bf       	out	0x3e, r29	; 62
+ 4bc:	0f be       	out	0x3f, r0	; 63
+ 4be:	cd bf       	out	0x3d, r28	; 61
+ 4c0:	df 91       	pop	r29
+ 4c2:	cf 91       	pop	r28
+ 4c4:	08 95       	ret
+
+000004c6 <TMU_Start_Timer>:
+ * Return: The error status of the function.			
+ * Description: This function add new task to delay schedule .
+ * 							
+ */
+EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t periodicity,uint8_t ID)
+{
+ 4c6:	af 92       	push	r10
+ 4c8:	bf 92       	push	r11
+ 4ca:	cf 92       	push	r12
+ 4cc:	df 92       	push	r13
+ 4ce:	ef 92       	push	r14
+ 4d0:	ff 92       	push	r15
+ 4d2:	0f 93       	push	r16
+ 4d4:	1f 93       	push	r17
+ 4d6:	cf 93       	push	r28
+ 4d8:	df 93       	push	r29
+ 4da:	ec 01       	movw	r28, r24
+ 4dc:	6a 01       	movw	r12, r20
+ 4de:	7b 01       	movw	r14, r22
+ 4e0:	b2 2e       	mov	r11, r18
+	EnmTMUError_t Error_Num = NOT_INIT; 
+	
+	uint8_t u8_index = 0;
+	
+if ( funcPtr == NULL )
+ 4e2:	00 97       	sbiw	r24, 0x00	; 0
+ 4e4:	09 f4       	brne	.+2      	; 0x4e8 <TMU_Start_Timer+0x22>
+ 4e6:	6d c0       	rjmp	.+218    	; 0x5c2 <TMU_Start_Timer+0xfc>
+ 4e8:	e7 e8       	ldi	r30, 0x87	; 135
+ 4ea:	f0 e0       	ldi	r31, 0x00	; 0
+ * In/Out:			
+ * Return: The error status of the function.			
+ * Description: This function add new task to delay schedule .
+ * 							
+ */
+EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t periodicity,uint8_t ID)
+ 4ec:	ab e9       	ldi	r26, 0x9B	; 155
+ 4ee:	b5 e0       	ldi	r27, 0x05	; 5
+ 4f0:	82 e0       	ldi	r24, 0x02	; 2
+		Error_Num = NULL_PTR;
+}else
+ {
+    for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+   {
+    	if (gapstr_Tasks_Buffer[u8_index].ID == ID)
+ 4f2:	40 2f       	mov	r20, r16
+ 4f4:	50 e0       	ldi	r21, 0x00	; 0
+    	{
+    		Error_Num = RE_START;
+ 4f6:	95 e0       	ldi	r25, 0x05	; 5
+		Error_Num = NULL_PTR;
+}else
+ {
+    for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+   {
+    	if (gapstr_Tasks_Buffer[u8_index].ID == ID)
+ 4f8:	04 2f       	mov	r16, r20
+ 4fa:	15 2f       	mov	r17, r21
+ 4fc:	60 81       	ld	r22, Z
+ 4fe:	71 81       	ldd	r23, Z+1	; 0x01
+ 500:	64 17       	cp	r22, r20
+ 502:	75 07       	cpc	r23, r21
+ 504:	09 f4       	brne	.+2      	; 0x508 <TMU_Start_Timer+0x42>
+    	{
+    		Error_Num = RE_START;
+ 506:	89 2f       	mov	r24, r25
+ 508:	3d 96       	adiw	r30, 0x0d	; 13
+if ( funcPtr == NULL )
+{
+		Error_Num = NULL_PTR;
+}else
+ {
+    for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+ 50a:	ea 17       	cp	r30, r26
+ 50c:	fb 07       	cpc	r31, r27
+ 50e:	a1 f7       	brne	.-24     	; 0x4f8 <TMU_Start_Timer+0x32>
+ 510:	a8 2e       	mov	r10, r24
+	
+   }
+ 
+ }
+
+if (Error_Num == NOT_INIT)
+ 512:	82 30       	cpi	r24, 0x02	; 2
+ 514:	09 f0       	breq	.+2      	; 0x518 <TMU_Start_Timer+0x52>
+ 516:	58 c0       	rjmp	.+176    	; 0x5c8 <TMU_Start_Timer+0x102>
+{
+		if(gu8_Timer_start_flag == 0)
+ 518:	80 91 90 05 	lds	r24, 0x0590
+ 51c:	81 11       	cpse	r24, r1
+ 51e:	1c c0       	rjmp	.+56     	; 0x558 <TMU_Start_Timer+0x92>
+		{
+			gu8_Timer_start_flag = 1;
+ 520:	81 e0       	ldi	r24, 0x01	; 1
+ 522:	80 93 90 05 	sts	0x0590, r24
+
+EnmTMUError_t Start_Timer(void)
+{
+	EnmTMUError_t Error_Num = NOT_INIT;
+			
+			switch (gu8_TMU_Timer_Ch)
+ 526:	80 91 60 00 	lds	r24, 0x0060
+ 52a:	81 30       	cpi	r24, 0x01	; 1
+ 52c:	51 f0       	breq	.+20     	; 0x542 <TMU_Start_Timer+0x7c>
+ 52e:	18 f0       	brcs	.+6      	; 0x536 <TMU_Start_Timer+0x70>
+ 530:	82 30       	cpi	r24, 0x02	; 2
+ 532:	91 f4       	brne	.+36     	; 0x558 <TMU_Start_Timer+0x92>
+ 534:	0c c0       	rjmp	.+24     	; 0x54e <TMU_Start_Timer+0x88>
+			{
+				case TIMER_0:
+				{
+					Timer_Start(TIMER_0, 6);// preloaded timer with 6 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
+ 536:	66 e0       	ldi	r22, 0x06	; 6
+ 538:	70 e0       	ldi	r23, 0x00	; 0
+ 53a:	80 e0       	ldi	r24, 0x00	; 0
+ 53c:	0e 94 77 01 	call	0x2ee	; 0x2ee <Timer_Start>
+ 540:	0b c0       	rjmp	.+22     	; 0x558 <TMU_Start_Timer+0x92>
+				}
+				break;
+				
+				case TIMER_1:
+				{
+					Timer_Start(TIMER_1, (65536 - 250) );// preloaded timer with 65286 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
+ 542:	66 e0       	ldi	r22, 0x06	; 6
+ 544:	7f ef       	ldi	r23, 0xFF	; 255
+ 546:	81 e0       	ldi	r24, 0x01	; 1
+ 548:	0e 94 77 01 	call	0x2ee	; 0x2ee <Timer_Start>
+ 54c:	05 c0       	rjmp	.+10     	; 0x558 <TMU_Start_Timer+0x92>
+				}
+				break;
+				
+				case TIMER_2:
+				{
+					Timer_Start(TIMER_2, 6);// preloaded timer with 6 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
+ 54e:	66 e0       	ldi	r22, 0x06	; 6
+ 550:	70 e0       	ldi	r23, 0x00	; 0
+ 552:	82 e0       	ldi	r24, 0x02	; 2
+ 554:	0e 94 77 01 	call	0x2ee	; 0x2ee <Timer_Start>
+		     Start_Timer();
+		}
+
+		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+		{
+			if (gapstr_Tasks_Buffer[u8_index].ID == 0)
+ 558:	80 91 87 00 	lds	r24, 0x0087
+ 55c:	90 91 88 00 	lds	r25, 0x0088
+ 560:	89 2b       	or	r24, r25
+ 562:	59 f0       	breq	.+22     	; 0x57a <TMU_Start_Timer+0xb4>
+ 564:	e4 e9       	ldi	r30, 0x94	; 148
+ 566:	f0 e0       	ldi	r31, 0x00	; 0
+ 568:	81 e0       	ldi	r24, 0x01	; 1
+ 56a:	90 e0       	ldi	r25, 0x00	; 0
+ 56c:	68 2f       	mov	r22, r24
+ 56e:	ac 01       	movw	r20, r24
+ 570:	20 81       	ld	r18, Z
+ 572:	31 81       	ldd	r19, Z+1	; 0x01
+ 574:	23 2b       	or	r18, r19
+ 576:	d9 f4       	brne	.+54     	; 0x5ae <TMU_Start_Timer+0xe8>
+ 578:	03 c0       	rjmp	.+6      	; 0x580 <TMU_Start_Timer+0xba>
+ 57a:	40 e0       	ldi	r20, 0x00	; 0
+ 57c:	50 e0       	ldi	r21, 0x00	; 0
+		{
+			gu8_Timer_start_flag = 1;
+		     Start_Timer();
+		}
+
+		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+ 57e:	60 e0       	ldi	r22, 0x00	; 0
+		{
+			if (gapstr_Tasks_Buffer[u8_index].ID == 0)
+			{
+				gapstr_Tasks_Buffer[u8_index].pfun_TMU = funcPtr ;
+ 580:	8d e0       	ldi	r24, 0x0D	; 13
+ 582:	84 9f       	mul	r24, r20
+ 584:	f0 01       	movw	r30, r0
+ 586:	85 9f       	mul	r24, r21
+ 588:	f0 0d       	add	r31, r0
+ 58a:	11 24       	eor	r1, r1
+ 58c:	e4 58       	subi	r30, 0x84	; 132
+ 58e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 590:	d1 83       	std	Z+1, r29	; 0x01
+ 592:	c0 83       	st	Z, r28
+				gapstr_Tasks_Buffer[u8_index].Time_delay = delay ;
+ 594:	c2 82       	std	Z+2, r12	; 0x02
+ 596:	d3 82       	std	Z+3, r13	; 0x03
+ 598:	e4 82       	std	Z+4, r14	; 0x04
+ 59a:	f5 82       	std	Z+5, r15	; 0x05
+				gapstr_Tasks_Buffer[u8_index].Counts = delay ;
+ 59c:	c7 82       	std	Z+7, r12	; 0x07
+ 59e:	d0 86       	std	Z+8, r13	; 0x08
+ 5a0:	e1 86       	std	Z+9, r14	; 0x09
+ 5a2:	f2 86       	std	Z+10, r15	; 0x0a
+				gapstr_Tasks_Buffer[u8_index].periodicity = periodicity ;
+ 5a4:	b6 82       	std	Z+6, r11	; 0x06
+				gapstr_Tasks_Buffer[u8_index].ID = ID ;
+ 5a6:	03 87       	std	Z+11, r16	; 0x0b
+ 5a8:	14 87       	std	Z+12, r17	; 0x0c
+				Error_Num = E_OK;
+ 5aa:	80 e0       	ldi	r24, 0x00	; 0
+				break;
+ 5ac:	07 c0       	rjmp	.+14     	; 0x5bc <TMU_Start_Timer+0xf6>
+ * In/Out:			
+ * Return: The error status of the function.			
+ * Description: This function add new task to delay schedule .
+ * 							
+ */
+EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t periodicity,uint8_t ID)
+ 5ae:	6f 5f       	subi	r22, 0xFF	; 255
+ 5b0:	01 96       	adiw	r24, 0x01	; 1
+ 5b2:	3d 96       	adiw	r30, 0x0d	; 13
+		{
+			gu8_Timer_start_flag = 1;
+		     Start_Timer();
+		}
+
+		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+ 5b4:	84 36       	cpi	r24, 0x64	; 100
+ 5b6:	91 05       	cpc	r25, r1
+ 5b8:	c9 f6       	brne	.-78     	; 0x56c <TMU_Start_Timer+0xa6>
+ 5ba:	8a 2d       	mov	r24, r10
+				Error_Num = E_OK;
+				break;
+			}
+		}
+		
+		if (u8_index == MAX_NUM_OF_TASKS)
+ 5bc:	64 36       	cpi	r22, 0x64	; 100
+ 5be:	21 f4       	brne	.+8      	; 0x5c8 <TMU_Start_Timer+0x102>
+ 5c0:	02 c0       	rjmp	.+4      	; 0x5c6 <TMU_Start_Timer+0x100>
+	
+	uint8_t u8_index = 0;
+	
+if ( funcPtr == NULL )
+{
+		Error_Num = NULL_PTR;
+ 5c2:	81 e0       	ldi	r24, 0x01	; 1
+ 5c4:	01 c0       	rjmp	.+2      	; 0x5c8 <TMU_Start_Timer+0x102>
+			}
+		}
+		
+		if (u8_index == MAX_NUM_OF_TASKS)
+		{
+			Error_Num = BUFFER_FULL;
+ 5c6:	86 e0       	ldi	r24, 0x06	; 6
+{
+}
+	
+
+return Error_Num ;	
+}
+ 5c8:	df 91       	pop	r29
+ 5ca:	cf 91       	pop	r28
+ 5cc:	1f 91       	pop	r17
+ 5ce:	0f 91       	pop	r16
+ 5d0:	ff 90       	pop	r15
+ 5d2:	ef 90       	pop	r14
+ 5d4:	df 90       	pop	r13
+ 5d6:	cf 90       	pop	r12
+ 5d8:	bf 90       	pop	r11
+ 5da:	af 90       	pop	r10
+ 5dc:	08 95       	ret
+
+000005de <TMU_Stop_Timer>:
+EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
+{
+   	uint8_t u8_index = 0;
+	EnmTMUError_t Error_Num = STOP_NO_START;
+	
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+ 5de:	90 91 60 00 	lds	r25, 0x0060
+ 5e2:	93 30       	cpi	r25, 0x03	; 3
+ 5e4:	49 f1       	breq	.+82     	; 0x638 <TMU_Stop_Timer+0x5a>
+} 
+else
+{
+		for ( u8_index = 0;  u8_index < MAX_NUM_OF_TASKS; u8_index++)
+		{
+			if (gapstr_Tasks_Buffer[u8_index].ID == ID)
+ 5e6:	90 e0       	ldi	r25, 0x00	; 0
+ 5e8:	20 91 87 00 	lds	r18, 0x0087
+ 5ec:	30 91 88 00 	lds	r19, 0x0088
+ 5f0:	28 17       	cp	r18, r24
+ 5f2:	39 07       	cpc	r19, r25
+ 5f4:	59 f0       	breq	.+22     	; 0x60c <TMU_Stop_Timer+0x2e>
+ 5f6:	e4 e9       	ldi	r30, 0x94	; 148
+ 5f8:	f0 e0       	ldi	r31, 0x00	; 0
+ 5fa:	21 e0       	ldi	r18, 0x01	; 1
+ 5fc:	30 e0       	ldi	r19, 0x00	; 0
+ 5fe:	b9 01       	movw	r22, r18
+ 600:	40 81       	ld	r20, Z
+ 602:	51 81       	ldd	r21, Z+1	; 0x01
+ 604:	48 17       	cp	r20, r24
+ 606:	59 07       	cpc	r21, r25
+ 608:	79 f4       	brne	.+30     	; 0x628 <TMU_Stop_Timer+0x4a>
+ 60a:	02 c0       	rjmp	.+4      	; 0x610 <TMU_Stop_Timer+0x32>
+ 60c:	60 e0       	ldi	r22, 0x00	; 0
+ 60e:	70 e0       	ldi	r23, 0x00	; 0
+			{
+				gapstr_Tasks_Buffer[u8_index].ID = 0;
+ 610:	8d e0       	ldi	r24, 0x0D	; 13
+ 612:	86 9f       	mul	r24, r22
+ 614:	f0 01       	movw	r30, r0
+ 616:	87 9f       	mul	r24, r23
+ 618:	f0 0d       	add	r31, r0
+ 61a:	11 24       	eor	r1, r1
+ 61c:	e4 58       	subi	r30, 0x84	; 132
+ 61e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 620:	14 86       	std	Z+12, r1	; 0x0c
+ 622:	13 86       	std	Z+11, r1	; 0x0b
+				Error_Num = E_OK;
+ 624:	80 e0       	ldi	r24, 0x00	; 0
+				break;
+ 626:	08 95       	ret
+ 628:	2f 5f       	subi	r18, 0xFF	; 255
+ 62a:	3f 4f       	sbci	r19, 0xFF	; 255
+ 62c:	3d 96       	adiw	r30, 0x0d	; 13
+{
+	Error_Num = NOT_INIT;
+} 
+else
+{
+		for ( u8_index = 0;  u8_index < MAX_NUM_OF_TASKS; u8_index++)
+ 62e:	24 36       	cpi	r18, 0x64	; 100
+ 630:	31 05       	cpc	r19, r1
+ 632:	29 f7       	brne	.-54     	; 0x5fe <TMU_Stop_Timer+0x20>
+ * 							
+ */
+EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
+{
+   	uint8_t u8_index = 0;
+	EnmTMUError_t Error_Num = STOP_NO_START;
+ 634:	84 e0       	ldi	r24, 0x04	; 4
+ 636:	08 95       	ret
+	
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+{
+	Error_Num = NOT_INIT;
+ 638:	82 e0       	ldi	r24, 0x02	; 2
+		
+}
+
+	
+ return Error_Num;	
+}
+ 63a:	08 95       	ret
+
+0000063c <TMU_Dispatch>:
+ * Return: The error status of the function.			
+ * Description: This function manage the tasks and execute every task in its time slot .
+ * 							
+ */
+EnmTMUError_t TMU_Dispatch(void)
+{
+ 63c:	cf 92       	push	r12
+ 63e:	df 92       	push	r13
+ 640:	ef 92       	push	r14
+ 642:	ff 92       	push	r15
+ 644:	0f 93       	push	r16
+ 646:	1f 93       	push	r17
+ 648:	cf 93       	push	r28
+ 64a:	df 93       	push	r29
+	EnmTMUError_t Error_Num = NOT_INIT ;
+	
+	uint8_t index = 0;
+	
+	if (gu8_TOV_Flag == 1 )
+ 64c:	80 91 7b 00 	lds	r24, 0x007B
+ 650:	81 30       	cpi	r24, 0x01	; 1
+ 652:	09 f0       	breq	.+2      	; 0x656 <TMU_Dispatch+0x1a>
+ 654:	47 c0       	rjmp	.+142    	; 0x6e4 <TMU_Dispatch+0xa8>
+	{
+		gu8_TOV_Flag = 0;
+ 656:	10 92 7b 00 	sts	0x007B, r1
+ 65a:	cc e7       	ldi	r28, 0x7C	; 124
+ 65c:	d0 e0       	ldi	r29, 0x00	; 0
+ 65e:	02 e8       	ldi	r16, 0x82	; 130
+ 660:	10 e0       	ldi	r17, 0x00	; 0
+ * In/Out:			
+ * Return: The error status of the function.			
+ * Description: This function manage the tasks and execute every task in its time slot .
+ * 							
+ */
+EnmTMUError_t TMU_Dispatch(void)
+ 662:	0f 2e       	mov	r0, r31
+ 664:	f0 e9       	ldi	r31, 0x90	; 144
+ 666:	ef 2e       	mov	r14, r31
+ 668:	f5 e0       	ldi	r31, 0x05	; 5
+ 66a:	ff 2e       	mov	r15, r31
+ 66c:	f0 2d       	mov	r31, r0
+{
+	EnmTMUError_t Error_Num = NOT_INIT ;
+ 66e:	68 94       	set
+ 670:	dd 24       	eor	r13, r13
+ 672:	d1 f8       	bld	r13, 1
+								    }
+
+								   break;
+
+							       default:
+								   Error_Num = INVALID_ARGUMENT;
+ 674:	0f 2e       	mov	r0, r31
+ 676:	f7 e0       	ldi	r31, 0x07	; 7
+ 678:	cf 2e       	mov	r12, r31
+ 67a:	f0 2d       	mov	r31, r0
+	{
+		gu8_TOV_Flag = 0;
+		
+			for (index=0; index < MAX_NUM_OF_TASKS; index++)
+			{
+				if (gapstr_Tasks_Buffer[index].ID > 0)
+ 67c:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 67e:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 680:	89 2b       	or	r24, r25
+ 682:	49 f1       	breq	.+82     	; 0x6d6 <TMU_Dispatch+0x9a>
+				{					
+					gapstr_Tasks_Buffer[index].Counts-- ;
+ 684:	4f 81       	ldd	r20, Y+7	; 0x07
+ 686:	58 85       	ldd	r21, Y+8	; 0x08
+ 688:	69 85       	ldd	r22, Y+9	; 0x09
+ 68a:	7a 85       	ldd	r23, Y+10	; 0x0a
+ 68c:	41 50       	subi	r20, 0x01	; 1
+ 68e:	51 09       	sbc	r21, r1
+ 690:	61 09       	sbc	r22, r1
+ 692:	71 09       	sbc	r23, r1
+ 694:	4f 83       	std	Y+7, r20	; 0x07
+ 696:	58 87       	std	Y+8, r21	; 0x08
+ 698:	69 87       	std	Y+9, r22	; 0x09
+ 69a:	7a 87       	std	Y+10, r23	; 0x0a
+					
+					if (gapstr_Tasks_Buffer[index].Counts <= 0 )
+ 69c:	45 2b       	or	r20, r21
+ 69e:	46 2b       	or	r20, r22
+ 6a0:	47 2b       	or	r20, r23
+ 6a2:	c9 f4       	brne	.+50     	; 0x6d6 <TMU_Dispatch+0x9a>
+					{
+						
+							   switch (gapstr_Tasks_Buffer[index].periodicity)
+ 6a4:	d8 01       	movw	r26, r16
+ 6a6:	8c 91       	ld	r24, X
+ 6a8:	88 23       	and	r24, r24
+ 6aa:	71 f0       	breq	.+28     	; 0x6c8 <TMU_Dispatch+0x8c>
+ 6ac:	81 30       	cpi	r24, 0x01	; 1
+ 6ae:	91 f4       	brne	.+36     	; 0x6d4 <TMU_Dispatch+0x98>
+							   {
+								   case PERIODIC:
+								    {
+		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ;
+ 6b0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 6b2:	9b 81       	ldd	r25, Y+3	; 0x03
+ 6b4:	ac 81       	ldd	r26, Y+4	; 0x04
+ 6b6:	bd 81       	ldd	r27, Y+5	; 0x05
+ 6b8:	8f 83       	std	Y+7, r24	; 0x07
+ 6ba:	98 87       	std	Y+8, r25	; 0x08
+ 6bc:	a9 87       	std	Y+9, r26	; 0x09
+ 6be:	ba 87       	std	Y+10, r27	; 0x0a
+			                           gapstr_Tasks_Buffer[index].pfun_TMU();									   
+ 6c0:	e8 81       	ld	r30, Y
+ 6c2:	f9 81       	ldd	r31, Y+1	; 0x01
+ 6c4:	09 95       	icall
+									}
+
+								   break;
+ 6c6:	07 c0       	rjmp	.+14     	; 0x6d6 <TMU_Dispatch+0x9a>
+								   case ONE_SHOT:
+								    {
+									    gapstr_Tasks_Buffer[index].ID = 0 ;
+ 6c8:	1c 86       	std	Y+12, r1	; 0x0c
+ 6ca:	1b 86       	std	Y+11, r1	; 0x0b
+									    gapstr_Tasks_Buffer[index].pfun_TMU();
+ 6cc:	e8 81       	ld	r30, Y
+ 6ce:	f9 81       	ldd	r31, Y+1	; 0x01
+ 6d0:	09 95       	icall
+								    }
+
+								   break;
+ 6d2:	01 c0       	rjmp	.+2      	; 0x6d6 <TMU_Dispatch+0x9a>
+
+							       default:
+								   Error_Num = INVALID_ARGUMENT;
+ 6d4:	dc 2c       	mov	r13, r12
+ 6d6:	2d 96       	adiw	r28, 0x0d	; 13
+ 6d8:	03 5f       	subi	r16, 0xF3	; 243
+ 6da:	1f 4f       	sbci	r17, 0xFF	; 255
+	
+	if (gu8_TOV_Flag == 1 )
+	{
+		gu8_TOV_Flag = 0;
+		
+			for (index=0; index < MAX_NUM_OF_TASKS; index++)
+ 6dc:	ce 15       	cp	r28, r14
+ 6de:	df 05       	cpc	r29, r15
+ 6e0:	69 f6       	brne	.-102    	; 0x67c <TMU_Dispatch+0x40>
+ 6e2:	03 c0       	rjmp	.+6      	; 0x6ea <TMU_Dispatch+0xae>
+ * Description: This function manage the tasks and execute every task in its time slot .
+ * 							
+ */
+EnmTMUError_t TMU_Dispatch(void)
+{
+	EnmTMUError_t Error_Num = NOT_INIT ;
+ 6e4:	68 94       	set
+ 6e6:	dd 24       	eor	r13, r13
+ 6e8:	d1 f8       	bld	r13, 1
+	else
+	{
+	}
+	
+return Error_Num;	
+}
+ 6ea:	8d 2d       	mov	r24, r13
+ 6ec:	df 91       	pop	r29
+ 6ee:	cf 91       	pop	r28
+ 6f0:	1f 91       	pop	r17
+ 6f2:	0f 91       	pop	r16
+ 6f4:	ff 90       	pop	r15
+ 6f6:	ef 90       	pop	r14
+ 6f8:	df 90       	pop	r13
+ 6fa:	cf 90       	pop	r12
+ 6fc:	08 95       	ret
+
+000006fe <_exit>:
+ 6fe:	f8 94       	cli
+
+00000700 <__stop_program>:
+ 700:	ff cf       	rjmp	.-2      	; 0x700 <__stop_program>
