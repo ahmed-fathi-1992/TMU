@@ -31,17 +31,20 @@ OUTPUT_FILE_DEP:=
 LIB_DEP:=
 
 # Every subdirectory with source files must be described here
-SUBDIRS := 
+SUBDIRS :=  \
+../MCAL \
+../Utility \
+../SL
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../DIO.c \
-../softwareDelay.c \
-../Timer.c \
+../MCAL/DIO.c \
+../MCAL/Timer.c \
+../SL/TMU_Config.c \
+../SL/TMU_Module.c \
 ../TMU.c \
-../TMU_Config.c \
-../TMU_Module.c
+../Utility/softwareDelay.c
 
 
 PREPROCESSING_SRCS += 
@@ -51,36 +54,36 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-DIO.o \
-softwareDelay.o \
-Timer.o \
+MCAL/DIO.o \
+MCAL/Timer.o \
+SL/TMU_Config.o \
+SL/TMU_Module.o \
 TMU.o \
-TMU_Config.o \
-TMU_Module.o
+Utility/softwareDelay.o
 
 OBJS_AS_ARGS +=  \
-DIO.o \
-softwareDelay.o \
-Timer.o \
+MCAL/DIO.o \
+MCAL/Timer.o \
+SL/TMU_Config.o \
+SL/TMU_Module.o \
 TMU.o \
-TMU_Config.o \
-TMU_Module.o
+Utility/softwareDelay.o
 
 C_DEPS +=  \
-DIO.d \
-softwareDelay.d \
-Timer.d \
+MCAL/DIO.d \
+MCAL/Timer.d \
+SL/TMU_Config.d \
+SL/TMU_Module.d \
 TMU.d \
-TMU_Config.d \
-TMU_Module.d
+Utility/softwareDelay.d
 
 C_DEPS_AS_ARGS +=  \
-DIO.d \
-softwareDelay.d \
-Timer.d \
+MCAL/DIO.d \
+MCAL/Timer.d \
+SL/TMU_Config.d \
+SL/TMU_Module.d \
 TMU.d \
-TMU_Config.d \
-TMU_Module.d
+Utility/softwareDelay.d
 
 OUTPUT_FILE_PATH +=TMU.elf
 
@@ -106,10 +109,31 @@ LIB_DEP+=
 
 
 
+MCAL/%.o: ../MCAL/%.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 3.4.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DDEBUG  -I"../MCAL" -I"../SL" -I"../Utility"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	@echo Finished building: $<
+	
+
+SL/%.o: ../SL/%.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 3.4.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DDEBUG  -I"../MCAL" -I"../SL" -I"../Utility"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	@echo Finished building: $<
+	
+
 ./%.o: .././%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DDEBUG  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DDEBUG  -I"../MCAL" -I"../SL" -I"../Utility"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	@echo Finished building: $<
+	
+
+Utility/%.o: ../Utility/%.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 3.4.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DDEBUG  -I"../MCAL" -I"../SL" -I"../Utility"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 

@@ -2,15 +2,15 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-DIO.c
+MCAL\DIO.c
 
-softwareDelay.c
+MCAL\Timer.c
 
-Timer.c
+SL\TMU_Config.c
+
+SL\TMU_Module.c
 
 TMU.c
 
-TMU_Config.c
-
-TMU_Module.c
+Utility\softwareDelay.c
 

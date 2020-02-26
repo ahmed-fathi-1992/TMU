@@ -4,7 +4,7 @@
  * Created: Dec 21, 2019
  *  Author: Zayed & Saad
  *  Edit: FATHI
- */ 
+ */
 
 
 #ifndef TIMER_H_
@@ -15,8 +15,8 @@
 /************************************************************************/
 
 #include "std_types.h"
-#include "registers.h"
-#include "interrupt.h"
+#include "Error_Codes.h"
+
 /************************************************************************/
 /*				 DEFINES			        */
 /************************************************************************/
@@ -49,8 +49,8 @@
 
 //timer0 Mode
 #define 	T0_NORMAL_MODE    0
-#define     T0_COMP_MODE      0x08  
-#define     T0_COUNTER_MODE   0x07 
+#define     T0_COMP_MODE      0x08
+#define     T0_COUNTER_MODE   0x07
 
 //timer0 OC
 #define 	T0_OC0_DIS       0
@@ -153,7 +153,7 @@ typedef struct Timer_cfg_s
 	uint8_t Timer_CH;
 	uint8_t Timer_Mode;
 	uint8_t Timer_Prescaler;
-	uint8_t Timer_Polling_Or_Interrupt;	
+	uint8_t Timer_Polling_Or_Interrupt;
 	void (*Timer_Cbk_ptr)(void);
 }Timer_cfg_s;
 
@@ -164,72 +164,72 @@ typedef struct Timer_cfg_s
 
 
 /**
- * Input: Pointer to a structure contains the information needed to initialize the timer. 
+ * Input: Pointer to a structure contains the information needed to initialize the timer.
  * Output:
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: Initiates the module.
- * 							
+ *
  */
 ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg);
 
 /**
- * Input: 
+ * Input:
  * 	Timer_CH_NO: The channel number of the timer needed to be started.
  *	Timer_Count: The start value of the timer.
  * Output:
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: This function strats the needed timer.
- * 							
+ *
  */
 ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count);
 
 /**
- * Input: 
+ * Input:
  * 	Timer_CH_NO: The channel number of the timer needed to be stopped.
  * Output:
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: This function stops the needed timer.
- * 							
+ *
  */
 ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO);
 
 /**
- * Input: 
+ * Input:
  * 	Timer_CH_NO: The channel number of the timer needed to get its status.
  * Output:
  * 	Data: A variable of type bool returns if the flag of the timer is raised or not.
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: This function is used to return if the flag of the timer is raised or not.
- * 							
+ *
  */
 ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data);
 
 /**
- * Input: 
+ * Input:
  * 	Timer_CH_NO: The channel number of the timer needed to get its value.
  * Output:
  * 	Data: This is the output variable of the function which holds the value of the timer.
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: This function is used to return the value of the timer.
- * 							
+ *
  */
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data);
 
 
 /**
- * Input: 
+ * Input:
  * 	Timer_CH_NO: The channel number of the timer needed to get its value.
  * 	Data: This is the Input variable of the function which holds the value of the timer needed to be set .
  * Output
- * In/Out:			
- * Return: The error status of the function.			
+ * In/Out:
+ * Return: The error status of the function.
  * Description: This function is used to return the value of the timer.
- * 							
+ *
  */
 ERROR_STATUS Timer_SetValue(uint8_t Timer_CH_NO, uint16_t Data);
 

@@ -3,7 +3,7 @@
  *
  * Created: 24/02/2020 17:40:28
  *  Author: FATHI
- */ 
+ */
 
 
 /************************************************************************/
@@ -11,7 +11,6 @@
 /************************************************************************/
 
 #include "TMU_Module.h"
-#include "softwareDelay.h "
 
 /************************************************************************/
 /*			         static Structures Definitions	                       */
@@ -24,7 +23,7 @@ typedef struct TMU_Task_s
 	uint8_t periodicity;
 	uint32_t Counts;
 	uint16_t ID;
-	
+
 }TMU_Task_s;
 
 
@@ -34,37 +33,38 @@ typedef struct TMU_Task_s
 
 static TMU_Task_s  gapstr_Tasks_Buffer[ MAX_NUM_OF_TASKS ] = {{0}};
 static volatile	uint8_t gu8_TOV_Flag = 0;
-static uint8_t gu8_TMU_Timer_Ch = TIMER_NO_CH ; 
-static uint8_t gu8_Timer_start_flag = 0 ; 
-
+static uint8_t gu8_TMU_Timer_Ch = TIMER_NO_CH ;
+static uint8_t gu8_Timer_start_flag = 0 ;
+//static uint8_t gu8_TMU_Init_flag = 0 ;
 
 /************************************************************************/
-/*		         TIMER static FUNCTIONS' PROTOTYPES		        */
+/*		            TMU static FUNCTIONS' PROTOTYPES		        */
 /************************************************************************/
 
 static void T0_OV_Callback(void);
 static EnmTMUError_t Start_Timer(void);
+
 
 /************************************************************************/
 /*		                       TMU FUNCTIONS	                        */
 /************************************************************************/
 
 
-/**
- * Input: Pointer to a structure contains the information needed to initialize the TMU. 
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: Initiates the module.
- * 							
- */
-EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr ) 
+
+EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 {
 	EnmTMUError_t Error_Num = NOT_INIT;
-	
+
 		Timer_cfg_s Timer0_cfg= {TIMER_0,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
-		Timer_cfg_s Timer1_cfg= {TIMER_1,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};	
+		Timer_cfg_s Timer1_cfg= {TIMER_1,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
 		Timer_cfg_s Timer2_cfg= {TIMER_2,TIMER_MODE,TIMER_PRESCALER_64,TIMER_INTERRUPT_MODE,T0_OV_Callback};
+
+if (gu8_TMU_Timer_Ch != TIMER_NO_CH)
+{
+	Error_Num = RE_INIT;
+}
+else
+{
 
 	if (ConfigPtr == NULL)
 	{
@@ -80,7 +80,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 					Error_Num = E_OK;
 				}
 			break;
-			
+
 			case TIMER_1:
 			    {
 					Timer_Init(&Timer1_cfg);
@@ -88,7 +88,7 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 					Error_Num = E_OK;
 				}
 			break;
-			
+
 			case TIMER_2:
 			    {
 				   Timer_Init(&Timer2_cfg);
@@ -96,173 +96,223 @@ EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
 				   Error_Num = E_OK;
 			    }
 			break;
-			
+
 			default:
 			Error_Num = INVALID_ARGUMENT;
 			break;
 		}
 	}
-	return Error_Num ;	
+}
+	return Error_Num ;
 }
 
-/**
- * Input: 
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: This function DeInit TMU .
- * 							
- */
+
 EnmTMUError_t TMU_DeInit ( void )
 {
-	
-return E_OK;	
-} 
+	EnmTMUError_t Error_Num = NOT_INIT;
 
-/**
- * Input: 
- *  	TMU_funptr: pointer to function need to be added to buffer
- * 	    delay: time delay  before execute the function 
- * 	    periodicity:  periodic or one shot time function
- * 	    ID:  define the task and must be unique 
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: This function add new task to delay schedule .
- * 							
- */
+		uint8_t u8_index = 0;
+
+		Timer_cfg_s Timer0_cfg= {TIMER_0,TIMER_MODE,TIMER_NO_CLOCK,TIMER_POLLING_MODE,NULL};
+		Timer_cfg_s Timer1_cfg= {TIMER_1,TIMER_MODE,TIMER_NO_CLOCK,TIMER_POLLING_MODE,NULL};
+		Timer_cfg_s Timer2_cfg= {TIMER_2,TIMER_MODE,TIMER_NO_CLOCK,TIMER_POLLING_MODE,NULL};
+
+	if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+	{
+		Error_Num = NOT_INIT;
+	}
+	else
+	{
+
+			switch (gu8_TMU_Timer_Ch)
+			{
+				case TIMER_0:
+				{
+					Timer_Stop(gu8_TMU_Timer_Ch);
+					Timer_Init(&Timer0_cfg);
+					gu8_TMU_Timer_Ch = TIMER_NO_CH ;
+					gu8_Timer_start_flag = 0;
+					  for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)// clear the buffer
+					    { gapstr_Tasks_Buffer[u8_index].ID = 0;}
+					Error_Num = E_OK;
+				}
+				break;
+
+				case TIMER_1:
+				{
+					Timer_Stop(gu8_TMU_Timer_Ch);
+					Timer_Init(&Timer1_cfg);
+					gu8_TMU_Timer_Ch = TIMER_NO_CH ;
+					gu8_Timer_start_flag = 0;
+					 for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)// clear the buffer
+						 { gapstr_Tasks_Buffer[u8_index].ID = 0;}
+					Error_Num = E_OK;
+				}
+				break;
+
+				case TIMER_2:
+				{
+					Timer_Stop(gu8_TMU_Timer_Ch);
+					Timer_Init(&Timer2_cfg);
+					gu8_TMU_Timer_Ch = TIMER_NO_CH ;
+					gu8_Timer_start_flag = 0;
+					 for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)// clear the buffer
+					     { gapstr_Tasks_Buffer[u8_index].ID = 0;}
+					Error_Num = E_OK;
+				}
+				break;
+
+				default:
+				Error_Num = NOT_INIT;
+				break;
+			}
+	}
+return Error_Num;
+}
+
+
 EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t periodicity,uint8_t ID)
 {
-	EnmTMUError_t Error_Num = NOT_INIT; 
-	
+	EnmTMUError_t Error_Num = INVALID_ARGUMENT;
+
 	uint8_t u8_index = 0;
-	
+
 if ( funcPtr == NULL )
 {
 		Error_Num = NULL_PTR;
 }else
  {
-    for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
-   {
-    	if (gapstr_Tasks_Buffer[u8_index].ID == ID)
-    	{
-    		Error_Num = RE_START;
-	    }
-	
-   }
- 
+	 if (gu8_TMU_Timer_Ch == TIMER_NO_CH)
+	 {
+		 Error_Num = NOT_INIT;
+	 }
+	 else
+	 {
+		     for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+		     {
+			     if (gapstr_Tasks_Buffer[u8_index].ID == ID)
+			     {
+				     Error_Num = RE_START;
+			     }
+
+		     }
+	 }
+
+
  }
 
-if (Error_Num == NOT_INIT)
+if (Error_Num == INVALID_ARGUMENT)
 {
-		if(gu8_Timer_start_flag == 0) // if it is the first task added in the schedule 
+		if(gu8_Timer_start_flag == 0) // if it is the first task added in the schedule
 		{
 			gu8_Timer_start_flag = 1;
-		     Start_Timer(); 
+		     Start_Timer();
 		}
 
-		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+		if (ID == 0)
 		{
-			if (gapstr_Tasks_Buffer[u8_index].ID == 0) // add the task in the first free array slot 
-			{
-				gapstr_Tasks_Buffer[u8_index].pfun_TMU = funcPtr ;
-				gapstr_Tasks_Buffer[u8_index].Time_delay = delay ;
-				gapstr_Tasks_Buffer[u8_index].Counts = delay ;
-				gapstr_Tasks_Buffer[u8_index].periodicity = periodicity ;
-				gapstr_Tasks_Buffer[u8_index].ID = ID ;
-				Error_Num = E_OK;
-				break;
-			}
+			Error_Num = INVALID_ARGUMENT;
 		}
-		
-		if (u8_index == MAX_NUM_OF_TASKS)
+		else
 		{
-			Error_Num = BUFFER_FULL;
+      		for (u8_index = 0; u8_index < MAX_NUM_OF_TASKS; u8_index++)
+      		{
+	      		if (gapstr_Tasks_Buffer[u8_index].ID == 0) // add the task in the first free array slot
+	      		{
+		      		gapstr_Tasks_Buffer[u8_index].pfun_TMU = funcPtr ;
+		      		gapstr_Tasks_Buffer[u8_index].Time_delay = delay ;
+		      		gapstr_Tasks_Buffer[u8_index].Counts = delay ;
+		      		gapstr_Tasks_Buffer[u8_index].periodicity = periodicity ;
+		      		gapstr_Tasks_Buffer[u8_index].ID = ID ;
+		      		Error_Num = E_OK;
+		      		break;
+	      		}
+      		}
+
+      		if (u8_index == MAX_NUM_OF_TASKS)
+      		{
+	      		Error_Num = BUFFER_FULL;
+      		}
 		}
-		
-} 
+
+
+
+
+
+}
 else
 {
 }
-	
 
-return Error_Num ;	
+if (Error_Num != E_OK)
+{
+	gu8_Timer_start_flag = 0;
 }
 
-/**
- * Input: 
- * 	 ID: The ID of the task needed to be stop .
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: This function stop the task .
- * 							
- */
+return Error_Num ;
+}
+
+
 EnmTMUError_t TMU_Stop_Timer(uint8_t ID)
 {
    	uint8_t u8_index = 0;
 	EnmTMUError_t Error_Num = STOP_NO_START;
-	
-if (gu8_TMU_Timer_Ch == TIMER_NO_CH) // if TMU not initialized  
+
+if (gu8_TMU_Timer_Ch == TIMER_NO_CH) // if TMU not initialized
 {
 	Error_Num = NOT_INIT;
-} 
+}
 else
 {
 		for ( u8_index = 0;  u8_index < MAX_NUM_OF_TASKS; u8_index++)
 		{
 			if (gapstr_Tasks_Buffer[u8_index].ID == ID)
 			{
-				gapstr_Tasks_Buffer[u8_index].ID = 0; // delete the task from the schedule 
+				gapstr_Tasks_Buffer[u8_index].ID = 0; // delete the task from the schedule
 				Error_Num = E_OK;
 				break;
 			}
 		}
-		
+
 }
 
-	
- return Error_Num;	
+
+ return Error_Num;
 }
-/**
- * Input: 
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: This function manage the tasks and execute every task in its time slot .
- * 							
- */
+
+
+
 EnmTMUError_t TMU_Dispatch(void)
 {
 	EnmTMUError_t Error_Num = NOT_INIT ;
-	
+
 	uint8_t index = 0;
-	
+
 	if (gu8_TOV_Flag == 1 )
 	{
 		gu8_TOV_Flag = 0;
-		
+
 			for (index=0; index < MAX_NUM_OF_TASKS; index++)
 			{
 				if (gapstr_Tasks_Buffer[index].ID > 0) // if the task is active NOTE: if task ID = 0 it means it is inactive
-				{					
+				{
 					gapstr_Tasks_Buffer[index].Counts-- ;
-					
-					if (gapstr_Tasks_Buffer[index].Counts <= 0 ) // delay ran out and time to execute 
+
+					if (gapstr_Tasks_Buffer[index].Counts <= 0 ) // delay ran out and time to execute
 					{
-						
+
 							   switch (gapstr_Tasks_Buffer[index].periodicity)
 							   {
 								   case PERIODIC:
 								    {
-		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ; // reload to make another delay period 
-			                           gapstr_Tasks_Buffer[index].pfun_TMU();									   
+		    						   gapstr_Tasks_Buffer[index].Counts = gapstr_Tasks_Buffer[index].Time_delay ; // reload to make another delay period
+			                           gapstr_Tasks_Buffer[index].pfun_TMU();
 									}
 
 								   break;
 								   case ONE_SHOT:
 								    {
-									    gapstr_Tasks_Buffer[index].ID = 0 ; // delete the task from the schedule 
+									    gapstr_Tasks_Buffer[index].ID = 0 ; // delete the task from the schedule
 									    gapstr_Tasks_Buffer[index].pfun_TMU();
 								    }
 
@@ -272,33 +322,25 @@ EnmTMUError_t TMU_Dispatch(void)
 								   Error_Num = INVALID_ARGUMENT;
 								   break;
 							   }
-						
+
 					}
 
 				}
 			}
-		
-	} 
+
+	}
 	else
 	{
 	}
-	
-return Error_Num;	
+
+return Error_Num;
 }
 
-/**
- * Input: 
- * Output:
- * In/Out:			
- * Return: The error status of the function.			
- * Description: This function used to start the timer one time with the start of the first task add to schedule  .
- * 							
- */
 
 EnmTMUError_t Start_Timer(void)
 {
 	EnmTMUError_t Error_Num = NOT_INIT;
-			
+
 			switch (gu8_TMU_Timer_Ch)
 			{
 				case TIMER_0:
@@ -307,42 +349,33 @@ EnmTMUError_t Start_Timer(void)
 					Error_Num = E_OK;
 				}
 				break;
-				
+
 				case TIMER_1:
 				{
 					Timer_Start(TIMER_1, (65536 - 250) );// preloaded timer with 65286 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
 					Error_Num = E_OK;
 				}
 				break;
-				
+
 				case TIMER_2:
 				{
 					Timer_Start(TIMER_2, 6);// preloaded timer with 6 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
 					Error_Num = E_OK;
 				}
 				break;
-				
+
 				default:
 				Error_Num = INVALID_ARGUMENT;
 				break;
 			}
-		return Error_Num ;		
+		return Error_Num ;
 }
 
 
-/**
- * Input: 
- * Output:
- * In/Out:			
- * Return: 			
- * Description: This is the callBack function used to set a flag every timer overflow to make periodic interrupt every 1 ms .
- * 							
- */
 static void T0_OV_Callback(void)
 {
  Timer_Start(TIMER_0, 6); // preloaded timer with 6 tick to count 250 tick and tick = 4 us so final timer resolution = 1000 us
  gu8_TOV_Flag =1 ;
- PORTB_DATA = ~PORTB_DATA;	//for debug	
 }
 
 

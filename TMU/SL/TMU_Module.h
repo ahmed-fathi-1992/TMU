@@ -19,26 +19,17 @@
 #include "std_types.h"
 #include "registers.h"
 #include "Timer.h"
+#include "Error_Codes.h"
 
 /************************************************************************/
 /*				 DEFINES			        */
 /************************************************************************/
 
 
-#define MAX_NUM_OF_TASKS    100 
 
 #define PERIODIC    1
 #define ONE_SHOT    0
 
-#define E_OK			0
-#define NULL_PTR		1
-#define NOT_INIT		2
-#define RE_INIT         3
-
-#define STOP_NO_START     4
-#define RE_START          5
-#define BUFFER_FULL       6 
-#define INVALID_ARGUMENT  7 
 /************************************************************************/
 /*                   typedefs for Timer                        */
 /************************************************************************/

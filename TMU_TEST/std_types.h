@@ -42,10 +42,5 @@ typedef unsigned char EnmTMUError_t;
 #define LOW  0		// defines LOW value for a bit
 #define HIGH 0xFF	// defines HIGH value for a bit
 
-/************************************************************************/
-/*						 ERROR defines                               */
-/************************************************************************/
-#define E_OK  0		//  on ERROR 
-#define E_NOK 1	// ERROR habend
 
 #endif /* STD_TYPES_H_ */

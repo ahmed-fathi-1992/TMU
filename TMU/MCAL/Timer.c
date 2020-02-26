@@ -310,7 +310,8 @@ static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
 			   	switch (Timer_cfg->Timer_Polling_Or_Interrupt)
 			   	{
 				   	case TIMER_POLLING_MODE:
-				   	TIMSK = TIMSK | T0_POLLING; //Disable interrupt  
+				   	//TIMSK = TIMSK | T0_POLLING; //Disable interrupt
+				    TIMSK = TIMSK & ~T0_INTERRUPT_NORMAL; //Disable interrupt   
 				   	break;
 					   
 				   	case TIMER_INTERRUPT_MODE:
@@ -390,7 +391,8 @@ static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 			   	switch (Timer_cfg->Timer_Polling_Or_Interrupt)
 			   	{
 				   	case TIMER_POLLING_MODE:
-				   	TIMSK = TIMSK | T1_POLLING;//Disable  interrupt 
+				   	//TIMSK = TIMSK | T1_POLLING;//Disable  interrupt 
+				    TIMSK = TIMSK & ~T1_INTERRUPT_NORMAL;//Disable  interrupt
 				   	break;
 				   	case TIMER_INTERRUPT_MODE:
 				   	TIMSK = TIMSK | T1_INTERRUPT_NORMAL;// enable Timer1 interrupt
@@ -471,7 +473,8 @@ static ERROR_STATUS Timer2_Init(Timer_cfg_s* Timer_cfg)
 		       switch (Timer_cfg->Timer_Polling_Or_Interrupt)
 		       {
 			       case TIMER_POLLING_MODE:
-			       TIMSK = TIMSK | T2_POLLING; //Disable  interrupt
+			     //  TIMSK = TIMSK | T2_POLLING; //Disable  interrupt
+				   TIMSK = TIMSK & ~T2_INTERRUPT_CMP; //Disable  interrupt
 			       break;
 			       case TIMER_INTERRUPT_MODE:
 			       TIMSK = TIMSK | T2_INTERRUPT_CMP; // enable Tmer2 interrupt

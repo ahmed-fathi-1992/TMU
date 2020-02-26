@@ -11,6 +11,7 @@
 //#include "common_macros.h"
 #include "std_types.h"
 #include "registers.h"
+#include "Error_Codes.h"
 /************************************************************************/
 /*						PINS/BITS defines                               */
 /************************************************************************/
