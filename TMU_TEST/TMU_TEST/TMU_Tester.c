@@ -41,19 +41,11 @@ ERROR_STATUS Test6()
     TMU_ConfigType TMU1;
     TMU1.Timer_CH = TIMER_0;
     TMU_Init(&TMU1);
-    TMU_Start_Timer(Toggle, 100, PERIODIC, 50);
-    return TMU_Start_Timer(Toggle, 100, PERIODIC, 50);
-}
-
-ERROR_STATUS Test7()
-{
-    TMU_ConfigType TMU1;
-    TMU1.Timer_CH = TIMER_0;
-    TMU_Init(&TMU1);
     return TMU_Start_Timer(Toggle, 100, ONE_SHOT, 50);
 }
+
 // failed
-ERROR_STATUS Test8()
+ERROR_STATUS Test7()
 {
     TMU_ConfigType TMU1;
     TMU1.Timer_CH = TIMER_0;
@@ -61,12 +53,26 @@ ERROR_STATUS Test8()
     return TMU_Start_Timer(Toggle, 100, 5, 50);
 }
 
+
+
+ERROR_STATUS Test8()
+{
+    TMU_ConfigType TMU1;
+    TMU1.Timer_CH = TIMER_0;
+    TMU_Init(&TMU1);
+    TMU_Start_Timer(Toggle, 100, PERIODIC, 50);
+    return TMU_Start_Timer(Toggle, 100, PERIODIC, 50);
+}
+
 ERROR_STATUS Test9()
 {
     TMU_ConfigType TMU1;
     TMU1.Timer_CH = TIMER_0;
     TMU_Init(&TMU1);
-    return TMU_Stop_Timer(50);
+    TMU_Start_Timer(Toggle, 100, PERIODIC, 51);
+    TMU_Start_Timer(Toggle, 100, PERIODIC, 52);
+    TMU_Start_Timer(Toggle, 100, PERIODIC, 53);
+    return TMU_Start_Timer(Toggle, 100, PERIODIC, 55);
 }
 
 ERROR_STATUS Test10()
@@ -82,9 +88,10 @@ ERROR_STATUS Test11()
 {
     TMU_ConfigType TMU1;
     TMU1.Timer_CH = TIMER_0;
-    //TMU_Init(&TMU1);
-    return TMU_DeInit();
+    TMU_Init(&TMU1);
+    return TMU_Stop_Timer(50);
 }
+
 
 ERROR_STATUS Test12()
 {
@@ -98,11 +105,9 @@ ERROR_STATUS Test13()
 {
     TMU_ConfigType TMU1;
     TMU1.Timer_CH = TIMER_0;
-    TMU_Init(&TMU1);
-    TMU_Start_Timer(Toggle, 100, PERIODIC, 51);
-    TMU_Start_Timer(Toggle, 100, PERIODIC, 52);
-    TMU_Start_Timer(Toggle, 100, PERIODIC, 53);
-    return TMU_Start_Timer(Toggle, 100, PERIODIC, 55);
+    //TMU_Init(&TMU1);
+    return TMU_DeInit();
 }
+
 
 

@@ -1,0 +1,146 @@
+
+
+
+
+
+
+/**********************************************************/
+/********************Testing TMU Init *******************/
+/**
+
+EnmTMUError_t TMU_Init (const TMU_ConfigType * ConfigPtr )
+
+/**
+ * Input: Pointer to a structure contains the information needed to initialize the TMU.
+ * Output:
+ * In/Out:
+ * Return: The error status of the function.
+ * Description: Initiates the module.
+ *
+ */
+
+ Testing TMU_Init structure pointer : 
+_______________________________________________________________________
+
+Testcase 1: Input >> structure pointer = NULL
+Expected Output: NULL_PTR
+
+
+ Testing TMU_Init channels number : 
+_______________________________________________________________________
+
+Testcase 2: Input >> Timer_CH_NO = 0    //TIMER_CH0
+Expected Output: E_OK 
+
+
+Testcase 3: Input >> Timer_CH_NO = 6 //value out of range 
+Expected Output: INVALID_ARGUMENT
+
+
+/**********************************************************/
+/********************Testing TMU_Start_Timer*******************/
+/**
+
+EnmTMUError_t TMU_Start_Timer(TMU_funptr funcPtr ,uint32_t delay , uint8_t periodicity , uint8_t ID)
+ 
+/**
+ * Input:
+ *  	TMU_funptr: pointer to function need to be added to buffer
+ * 	    delay: time delay  before execute the function
+ * 	    periodicity:  periodic or one shot time function
+ * 	    ID:  define the task and must be unique
+ * Output:
+ * In/Out:
+ * Return: The error status of the function.
+ * Description: This function add new task to delay schedule .
+ *
+ */
+
+ Testing TMU_Start_Timer function pointer  : 
+_______________________________________________________________________
+
+Testcase 4: Input >> function pointer = NULL
+Expected Output: NULL_PTR
+
+
+ Testing TMU_Start_Timer periodicity   : 
+_______________________________________________________________________
+
+Testcase 5: Input >> periodicity = PERIODIC
+Expected Output: E_OK 
+
+Testcase 6: Input >>periodicity  = ONE_SHOT
+Expected Output: E_OK 
+
+Testcase 7: Input >>periodicity  =  6 //value out of range
+Expected Output: INVALID_ARGUMENT
+
+
+ Testing TMU_Start_Timer ID: 
+_______________________________________________________________________
+
+Testcase 8: start two tasks with same ID
+Expected Output: RE_START
+
+
+ Testing TMU_Start_Timer Buffer is full : 
+_______________________________________________________________________
+
+Testcase 9: start taskes more than Buffer size
+Expected Output: BUFFER_FULL
+
+
+/**********************************************************/
+/********************Testing TMU_Stop_Timer*******************/
+/**
+
+EnmTMUError_t TMU_Stop_Timer(uint8_t ID);
+
+/**
+ * Input:
+ * 	 ID: The ID of the task needed to be stop .
+ * Output:
+ * In/Out:
+ * Return: The error status of the function.
+ * Description: This function stop the task .
+ *
+ */
+
+ Testing TMU_Stop_Timer ID: 
+_______________________________________________________________________
+
+Testcase 10: Stop task existed
+Expected Output: E_OK
+
+
+Testcase 11: Stop task not started  or not existed
+Expected Output: STOP_NO_START
+
+
+
+
+/**********************************************************/
+/********************Testing TMU_DeInit  *******************/
+/**
+
+EnmTMUError_t TMU_DeInit ( void )
+
+/**
+ * Input:
+ * Output:
+ * In/Out:
+ * Return: The error status of the function.
+ * Description: This function DeInit TMU .
+ *
+ */
+_______________________________________________________________________
+
+Testcase 12: deinit after init 
+Expected Output: E_OK 
+
+Testcase 13: deinti befor init 
+Expected Output: NOT_INIT
+
+
+
+
